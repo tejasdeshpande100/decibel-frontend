@@ -7,7 +7,9 @@ import SignupPage from "./Pages/Signup/SignupPage";
 import SideDrawer from "./Components/Drawer";
 import getWindowDimensions from './utils/getWindowDimensions';
 import DashboardPage from "./Pages/Dashboard/DashboardPage";
-import BrokerSetupPage from "./Pages/BrokerSetup/BrokerSetupPage";
+import BrokerLoginPage from "./Pages/BrokerLogin/BrokerLoginPage";
+import BrokerSetupPage from './Pages/BrokerSetup/BrokerSetupPage';
+import KiteCallbackPage from "./Pages/KiteCallback/KiteCallbackPage";
 import PrivateRoute from "./PrivateRoute"
 import {useSelector} from 'react-redux'
 
@@ -24,7 +26,9 @@ function App() {
       <Route path="/decibel-signup" element={<SignupPage/>} />
       <Route path="/decibel-login" element={<LoginPage/>} />
       <Route path="/dashboard" element={<PrivateRoute><DashboardPage/></PrivateRoute>} />
+      <Route path="/broker-login" element={<PrivateRoute><BrokerLoginPage/></PrivateRoute>} />
       <Route path="/broker-setup" element={<PrivateRoute><BrokerSetupPage/></PrivateRoute>} />
+      <Route path="/kite-callback" element={<PrivateRoute><KiteCallbackPage/></PrivateRoute>} />
         <Route path="/" element={<Homepage/>} />
         </Routes>
   </BrowserRouter>

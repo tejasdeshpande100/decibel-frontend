@@ -28,8 +28,10 @@ function LoginPage(props) {
         console.log(signIn())
         dispatch(signIn())
         localStorage.setItem('token',response.data.token)
+        localStorage.setItem('email',response.data.user.email)
+
         navigate('/dashboard')
-        // window.location.href = "/dashboard"
+       
     }
 
   };
