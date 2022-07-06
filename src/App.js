@@ -6,7 +6,7 @@ import LoginPage from "./Pages/Login/LoginPage";
 import SignupPage from "./Pages/Signup/SignupPage";
 import SideDrawer from "./Components/Drawer";
 import getWindowDimensions from './utils/getWindowDimensions';
-import DashboardPage from "./Pages/Dashboard/DashboardPage";
+import DashboardPage from "./Pages/HistoricalDashboard/DashboardPage";
 import BrokerLoginPage from "./Pages/BrokerLogin/BrokerLoginPage";
 import BrokerSetupPage from './Pages/BrokerSetup/BrokerSetupPage';
 import KiteCallbackPage from "./Pages/KiteCallback/KiteCallbackPage";

@@ -1,0 +1,15 @@
+
+
+.main-container{
+    background-color: grey;
+    padding: 1em 0.5em;
+
+
+}
+
+@media (max-width: 900px) {
+    .main-container {
+        background-color: yellow;
+    
+    } 
+  }

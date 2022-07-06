@@ -1,0 +1,53 @@
+.summary-panel-container{
+display: flex;
+justify-content: space-between;
+}
+
+.stats-panel-container{
+/* background-color: blue; */
+width: 25%;
+
+/* height: 20em; */
+}
+
+.summary-curves-container{
+    background-color: green;
+    width: 73%;
+    height: 20em;
+}
+
+.small-font{
+    font-size: 13px;
+}
+
+.table-row-hover{
+   
+}
+
+.table-row-hover:hover {
+    background-color: yellow;
+  }
+
+.table-row{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+}
+
+@media (max-width: 900px) {
+    .summary-panel-container {
+        display: inline;
+    
+    } 
+    .stats-panel-container{
+        
+        width: 100%;
+        
+        }
+        
+        .summary-curves-container{
+           margin-top: 1em;
+            width: 100%;
+           
+        }
+  }
