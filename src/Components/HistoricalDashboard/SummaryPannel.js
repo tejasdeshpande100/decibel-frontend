@@ -6,6 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { VictoryChart,VictoryLine,VictoryLabel,VictoryVoronoiContainer } from 'victory';
 
 import './summaryPannel.css';
 
@@ -94,7 +95,31 @@ export default function SummaryPanel() {
     </Paper>
        */}
        </div>
-      <div className='summary-curves-container'></div>
+      <div className='summary-curves-container'>
+      <VictoryChart 
+        containerComponent={
+          <VictoryVoronoiContainer
+            labels={d => "(x=" + d.datum.x+ ";y=" + d.datum.y + ")" }
+          />
+        }
+      >
+      <VictoryLabel
+      x={300}
+      y={50}
+      // text="Removing this label fixes everything"
+      textAnchor="middle"
+    />
+  <VictoryLine
+    data={[
+      { x: 1, y: 2 },
+      { x: 2, y: 3 },
+      { x: 3, y: 5 },
+      { x: 4, y: 4 },
+      { x: 5, y: 6 }
+    ]}
+  />
+</VictoryChart>
+      </div>
     {/* <Paper sx={{ width: '100%' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
