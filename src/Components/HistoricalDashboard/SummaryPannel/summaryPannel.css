@@ -5,15 +5,35 @@ justify-content: space-between;
 
 .stats-panel-container{
 /* background-color: blue; */
+background-color: white;
 width: 25%;
+border: 1px solid #e6e6e6;
+box-shadow: 4px 4px 6px -4px rgb(82 63 105 / 40%);
 
 /* height: 20em; */
 }
 
 .summary-curves-container{
-    background-color: green;
+    
     width: 73%;
     height: 20em;
+    background-color: white;
+    box-shadow: 4px 4px 6px -4px rgb(82 63 105 / 40%);
+    border: 1px solid #e6e6e6;
+}
+
+.switch-buttons-container{
+    background-color: #F5F5F5;
+}
+
+.switch-button{
+    border: none;
+    cursor: pointer;
+    background-color: #E0E0E0;
+}
+
+.switch-title{
+    border: none;
 }
 
 .small-font{
@@ -25,13 +45,14 @@ width: 25%;
 }
 
 .table-row-hover:hover {
-    background-color: yellow;
+    background-color: #F5F5F5;
   }
 
 .table-row{
     display: flex;
     justify-content: space-between;
     padding: 0 1em;
+    margin-top: 5px;
 }
 
 @media (max-width: 900px) {
