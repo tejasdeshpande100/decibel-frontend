@@ -1,0 +1,27 @@
+.container{
+    padding: 2em;
+}
+
+.title{
+    text-align: center;
+}
+
+.window-size-input{
+    text-align: right;
+}
+
+.charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 2em;
+  }
+  
+  .chart-container {
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    width: 48%;
+    /* height: 300px; */
+    margin-bottom: 2em;
+    padding: 21px 15px;
+  }

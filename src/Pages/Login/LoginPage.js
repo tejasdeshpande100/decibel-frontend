@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import {signIn} from '../../redux/actions'
 import {login} from "../../api/auth";
+import Button from '@mui/material/Button';
 
 import "./loginPage.css";
 
@@ -48,17 +49,19 @@ function LoginPage(props) {
       <form onSubmit={handleSubmit}>
       {renderErrorMessage("email")}
         <div className="input-container">
-          <label>email </label>
-          <input type="email" name="email" required />
+          {/* <label>email </label> */}
+          <input type="email" placeholder="email" name="email" required />
         
         </div>
         <div className="input-container">
-          <label>Password </label>
-          <input type="password" name="pass" required />
+          {/* <label>Password </label> */}
+          <input type="password" placeholder="password" name="pass" required />
 
         </div>
         <div className="button-container">
-          <input type="submit" />
+         
+          <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">Login</Button>
+         
         </div>
       </form>
     </div>

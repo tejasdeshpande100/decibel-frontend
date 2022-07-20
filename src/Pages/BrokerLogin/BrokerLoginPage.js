@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material';
-
+import ZerodhaSVG from '../../images/broker-zerodha.svg'
 import {generateLoginLink} from "../../api/broker_token";
 import './brokerLoginPage.css'
 
@@ -19,7 +19,7 @@ async function generateLoginUrl() {
   const response = await generateLoginLink({email})
   console.log(response)
 
-  if(response.status == 200){
+  if(response.status === 200){
     window.location.href=response.data.url
   }else{
     console.log('Missing kite creds')
@@ -31,8 +31,9 @@ async function generateLoginUrl() {
   return (
     <div>
         <div className="card">
-
-    <h4><b>Zerodha</b></h4> 
+        <img style={{'width':'inherit'}} alt='zerodha'  src={ZerodhaSVG}/>
+    <h4 style={{'color':'grey'}}><b>Zerodha</b></h4> 
+    
    <Button variant="contained" color="primary" onClick={generateLoginUrl}>Login</Button>
 
   </div>

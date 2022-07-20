@@ -1,7 +1,11 @@
 .summary-panel-container{
+    /* height: 20em; */
+    margin-bottom: 20px;
+    margin-top: 20px;
 display: flex;
 justify-content: space-between;
 }
+
 
 .stats-panel-container{
 /* background-color: blue; */
@@ -13,20 +17,36 @@ box-shadow: 4px 4px 6px -4px rgb(82 63 105 / 40%);
 /* height: 20em; */
 }
 
+.stats-table{
+    height: 20em;
+    overflow: scroll;  
+}
+
 .summary-curves-container{
     
     width: 73%;
-    height: 20em;
+    height: 22em;
     background-color: white;
     box-shadow: 4px 4px 6px -4px rgb(82 63 105 / 40%);
     border: 1px solid #e6e6e6;
 }
 
+.summary-chart-wrapper{
+    height: inherit;
+}
+
 .switch-buttons-container{
     background-color: #F5F5F5;
+    display: flex;
+    justify-content: space-between;
+}
+
+.more-horizon-container{
+    cursor: pointer;
 }
 
 .switch-button{
+    height: 30px;
     border: none;
     cursor: pointer;
     background-color: #E0E0E0;
@@ -59,15 +79,17 @@ box-shadow: 4px 4px 6px -4px rgb(82 63 105 / 40%);
     .summary-panel-container {
         display: inline;
     
+    
     } 
     .stats-panel-container{
-        
+        margin-top: 20px;
         width: 100%;
         
         }
         
         .summary-curves-container{
            margin-top: 1em;
+           margin-bottom: 1em;
             width: 100%;
            
         }

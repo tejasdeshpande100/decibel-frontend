@@ -10,6 +10,7 @@ import DashboardPage from "./Pages/HistoricalDashboard/DashboardPage";
 import BrokerLoginPage from "./Pages/BrokerLogin/BrokerLoginPage";
 import BrokerSetupPage from './Pages/BrokerSetup/BrokerSetupPage';
 import KiteCallbackPage from "./Pages/KiteCallback/KiteCallbackPage";
+import UsdInrPage from './Pages/UsdInr/UsdInrPage'
 import PrivateRoute from "./PrivateRoute"
 import {useSelector} from 'react-redux'
 
@@ -29,6 +30,7 @@ function App() {
       <Route path="/broker-login" element={<PrivateRoute><BrokerLoginPage/></PrivateRoute>} />
       <Route path="/broker-setup" element={<PrivateRoute><BrokerSetupPage/></PrivateRoute>} />
       <Route path="/kite-callback" element={<PrivateRoute><KiteCallbackPage/></PrivateRoute>} />
+      <Route path="/usd-inr" element={<PrivateRoute><UsdInrPage/></PrivateRoute>} />
         <Route path="/" element={<Homepage/>} />
         </Routes>
   </BrowserRouter>
