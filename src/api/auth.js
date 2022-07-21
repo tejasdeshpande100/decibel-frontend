@@ -6,11 +6,14 @@ const signupUrl = process.env.REACT_APP_BACKEND_URL+"/register"
 export const login = async (userData)=>{
     
     try{
-        const headers = { 
-            'x-api-key': process.env.REACT_APP_API_GATEWAY_KEY
-        };
-         const response = await Axios.post(loginUrl, userData, { headers })
-         return response
+        // const headers = { 
+        //     'x-api-key': process.env.REACT_APP_API_GATEWAY_KEY
+        // };
+        //  const response = await Axios.post(loginUrl, userData, { headers })
+        const response = await Axios.post(loginUrl, userData)
+       
+        // const response = await Axios.post(process.env.REACT_APP_BACKEND_URL+"/login",{email:"tejasdesh18@gmail.com",password:"tejas"});
+        return response
             
     }catch(error){
         

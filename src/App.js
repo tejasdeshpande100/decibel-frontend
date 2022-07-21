@@ -13,11 +13,18 @@ import KiteCallbackPage from "./Pages/KiteCallback/KiteCallbackPage";
 import UsdInrPage from './Pages/UsdInr/UsdInrPage'
 import PrivateRoute from "./PrivateRoute"
 import {useSelector} from 'react-redux'
+// import Axios from 'axios'
 
 function App() {
   const {width,height}=getWindowDimensions()
   const isLoggedIn=useSelector(state=>state.isLoggedIn)
   console.log(isLoggedIn)
+
+  // const handleRequest= async ()=>{
+  //   const response = await Axios.post(process.env.REACT_APP_BACKEND_URL+"/login",{email:"tejasdesh22@gmail.com",password:"tejas"});
+  // console.log(response)
+  // }
+  // handleRequest()
 
   return (
    <>

@@ -21,10 +21,15 @@ function LoginPage(props) {
     var { email, pass } = document.forms[0];
 
     let response = await login({email:email.value,password:pass.value})
-    console.log(response)
+    console.log('response',response)
 
     if(response.status !== 200){
+      if(response.data && response.data.message){
         setErrorMessages({ name: "email", message: response.data.message  });
+      }else{
+        setErrorMessages({ name: "email", message: "Internal server error"  });
+      }
+        
     }else{
         console.log(signIn())
         dispatch(signIn())
