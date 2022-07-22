@@ -12,23 +12,20 @@ import BrokerSetupPage from './Pages/BrokerSetup/BrokerSetupPage';
 import KiteCallbackPage from "./Pages/KiteCallback/KiteCallbackPage";
 import UsdInrPage from './Pages/UsdInr/UsdInrPage'
 import PrivateRoute from "./PrivateRoute"
+import HeaderNav from './Components/HeaderNav/HeaderNav';
 import {useSelector} from 'react-redux'
 // import Axios from 'axios'
 
 function App() {
   const {width,height}=getWindowDimensions()
   const isLoggedIn=useSelector(state=>state.isLoggedIn)
-  console.log(isLoggedIn)
 
-  // const handleRequest= async ()=>{
-  //   const response = await Axios.post(process.env.REACT_APP_BACKEND_URL+"/login",{email:"tejasdesh22@gmail.com",password:"tejas"});
-  // console.log(response)
-  // }
-  // handleRequest()
 
   return (
    <>
-   {width<900?<SideDrawer/>:null}
+
+   {width<900?<SideDrawer/>:<HeaderNav/>}
+  
     <BrowserRouter >
       <Routes>
       <Route path="/decibel-signup" element={<SignupPage/>} />
@@ -41,6 +38,7 @@ function App() {
         <Route path="/" element={<Homepage/>} />
         </Routes>
   </BrowserRouter>
+ 
   </>
   );
 }

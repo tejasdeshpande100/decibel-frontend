@@ -17,7 +17,7 @@ async function generateLoginUrl() {
   const email = localStorage.getItem('email')
 
   const response = await generateLoginLink({email})
-  console.log(response)
+
 
   if(response.status === 200){
     window.location.href=response.data.url

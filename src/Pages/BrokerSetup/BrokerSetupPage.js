@@ -18,13 +18,13 @@ export default function BrokerSetupPage() {
 
    
        if(response.status === 200){
-           console.log(response)
+
            navigate('/broker-login')
        }else{
           
         //   error
           setErrorMessages({ name: "kite_api_key", message: response.data.message  });
-        console.log(response)
+
         
        }
    

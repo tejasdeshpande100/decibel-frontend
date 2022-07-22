@@ -1,0 +1,21 @@
+.nav {
+    
+    display: flex;
+    padding: 0.5em 1em;
+    justify-content: space-between;
+    z-index: 1;
+    position: fixed;
+    width: 100%;
+    background-color: white;
+  }
+
+
+.logo{
+    height: 2em;
+    cursor: pointer;
+}
+
+.account-icon-container{
+    margin-right: 2em;
+    cursor: pointer;
+}

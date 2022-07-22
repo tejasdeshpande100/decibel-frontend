@@ -21,17 +21,14 @@ function SignupPage(props) {
     var { email, pass } = document.forms[0];
 
     let response = await signup({email:email.value,password:pass.value})
-    console.log(response)
+
 
     if(response.status !== 200){
         setErrorMessages({ name: "email", message: response.data.message  });
     }else{
-        console.log(signIn())
-        dispatch(signIn())
-        localStorage.setItem('token',response.data.token)
-        localStorage.setItem('email',response.data.user.email)
+        
 
-        navigate('/dashboard')
+        navigate('/decibel-login')
        
     }
 

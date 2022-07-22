@@ -65,7 +65,7 @@ export default function SummaryPanel() {
   },[]);
 
   const handleChnageChart = (option)=>{
-    console.log(option,chartsData[option])
+
     setState({...state,chartData:chartsData[option]})
   }
 

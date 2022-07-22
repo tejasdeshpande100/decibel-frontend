@@ -1,27 +1,82 @@
 .container{
     padding: 2em;
+
 }
 
 .title{
     text-align: center;
+    margin-top: 1em;
 }
 
 .window-size-input{
     text-align: right;
 }
 
-.charts-container {
+.body-wrapper {
+    display: flex;
+    /* flex-wrap: wrap;
+    justify-content: space-between; */
+    margin-top: 2em;
+  }
+  
+  .body-container {
+    /* box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05); */
+    border-radius: 10px;
+    width: 80%;
+    /* height: 300px; */
+    margin: 2em auto;
+    padding: 21px 15px;
+  }
+
+  .corr-charts-container{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 2em;
   }
-  
-  .chart-container {
-    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
-    border-radius: 10px;
-    width: 48%;
-    /* height: 300px; */
+
+  .corr-chart-container{
+    width: 50%;
+  }
+
+  .signals-table-container{
+    text-align: center;
+    
+  }
+
+  .signals-table-row{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+  }
+
+  .signals-table-row:hover {
+   
+    background-color: #F5F5F5;
+  }
+
+  .signals-table{
+    width: 98%;
+    margin: auto;
+  }
+
+  .sub-header{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+   
+
+    margin: auto;
+  }
+
+  .sub-title{
+    width: 80%;
+  }
+
+  .autocomplete-container{
+    width: 18%;
+  }
+  .chart-skeleton{
     margin-bottom: 2em;
-    padding: 21px 15px;
   }
