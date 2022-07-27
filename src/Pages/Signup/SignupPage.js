@@ -56,7 +56,7 @@ function SignupPage(props) {
 
         </div>
         <div className="button-container">
-        <Button type="submit" style={{"text-transform": "none"}} variant="contained">Signup</Button>
+        <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">Signup</Button>
         </div>
       </form>
     </div>

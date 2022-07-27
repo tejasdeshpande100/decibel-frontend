@@ -10,7 +10,7 @@ export const equityAndDrawdown = async (window)=>{
     
     try{
   
-        const response = await Axios.get(equityAndDrawdownUrl+`?window=`)
+        const response = await Axios.get(equityAndDrawdownUrl+`?window=${window}`)
        
        
         return response
@@ -26,7 +26,7 @@ export const correlationPlots = async (window)=>{
     
     try{
   
-        const response = await Axios.get(correlationPlotsUrl+`?window=`)
+        const response = await Axios.get(correlationPlotsUrl+`?window=${window}`)
        
        
         return response

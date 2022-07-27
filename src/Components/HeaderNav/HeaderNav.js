@@ -4,6 +4,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import DecibelLogo from '../../images/decibelLogo.png';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { isAuthenticated } from '../../api/auth';
 import './headerNav.css'
 
 
@@ -32,7 +33,7 @@ export default function HeaderNav() {
         </div>
         <div className='account-icon-container'>
 <AccountBoxIcon onClick={handleClick} fontSize='large'  />
-<Menu
+{isAuthenticated()?<Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
@@ -42,7 +43,7 @@ export default function HeaderNav() {
         }}
       >
         <MenuItem onClick={signOut}>Sign Out</MenuItem>
-      </Menu>
+      </Menu>:null}
         </div>
     </div>
   )

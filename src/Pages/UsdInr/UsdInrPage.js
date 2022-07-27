@@ -17,13 +17,13 @@ import './usdInrPage.css'
 export default function UsdInrPage() {
 
   const [state, setState] = useState()
-
+  const [window, setWindow] = useState(14)
 
  
   useEffect(() => {
     const getResponse = async () => {
-      const eqDdResponse = await equityAndDrawdown()
-      const corrResponse = await correlationPlots()
+      const eqDdResponse = await equityAndDrawdown(window)
+      const corrResponse = await correlationPlots(window)
       console.log(eqDdResponse)
       return {...eqDdResponse.data.body,...corrResponse.data.body};
     }
@@ -34,21 +34,21 @@ export default function UsdInrPage() {
       console.log(error)
     })
 
-
-  }, [])
+console.log(window)
+  }, [window])
 
 
    
 // window sizes
 const windowValues = [
-  { label: 7 },
-  { label: 10 },
-  { label: 14 },
-  { label: 21 },
-  { label: 22 },
-  { label: 42 },
-  { label: 63 },
-  { label: 90 }
+  { label: '7', value: 7 },
+  { label: '10', value: 10 },
+  { label: '14', value: 14 },
+  { label: '21', value: 21 },
+  { label: '22', value: 22 },
+  { label: '42', value: 42 },
+  { label: '63', value: 63 },
+  { label: '90', value: 90 }
 ]
 
   return (
@@ -65,7 +65,11 @@ const windowValues = [
       disablePortal
       id="combo-box-demo"
       options={windowValues}
-      
+      isOptionEqualToValue={(option, value) => option.value === value.value}
+      onChange={(event, value) => {
+        setState(null)
+        setWindow(value.value)
+      }}
       renderInput={(params) => <TextField {...params} label="Window" />}
     />
       </div>
@@ -79,7 +83,8 @@ const windowValues = [
             <div className="chart-title-container">
                 <div className="chart-title">Equity/Drawdown Curve</div>
               </div>
-              <div>
+              <div className="charts-container">
+              <div className="chart-container">
                
     <VictoryChart
     width={600}
@@ -99,12 +104,40 @@ const windowValues = [
     <VictoryLine
       data={state?state.eq:[]}
     />
+    
   </VictoryChart>
    
                
               </div>
 
-              <div>
+                <div className="chart-container">
+                <VictoryChart
+                  width={600}
+                  theme={VictoryTheme.material}
+                  containerComponent={
+                    <VictoryVoronoiContainer
+                      labels={(d) => {
+                        return d.datum.y;
+                      }}
+                    />
+                  }
+                >
+                  <VictoryAxis
+                    fixLabelOverlap={true}
+                    crossAxis
+                    offsetY={50}
+                  />
+                  <VictoryAxis  dependentAxis={true} />
+                  <VictoryLabel x={300} y={50} textAnchor="middle" />
+
+                  <VictoryLine
+                    data={state?state.corr:[]}
+                  />
+                  
+                </VictoryChart>
+                  </div>
+
+                  <div className="chart-container">
                 <VictoryChart
                   width={600}
                   theme={VictoryTheme.material}
@@ -128,9 +161,8 @@ const windowValues = [
                   
                 </VictoryChart>
               </div>
-              
-              <div className="corr-charts-container">
-                <div className="corr-chart-container">
+
+                  <div className="chart-container">
                 <VictoryChart
                   width={600}
                   theme={VictoryTheme.material}
@@ -146,31 +178,15 @@ const windowValues = [
                     fixLabelOverlap={true}
                   />
                   <VictoryAxis dependentAxis={true} />
-                  <VictoryLabel x={300} y={50} textAnchor="middle" />
-
                   <VictoryLine
-                    data={state?state.corr:[]}
-                  />
-                  
-                </VictoryChart>
-                  </div>
-
-                  <div className="corr-chart-container">
-                <VictoryChart
-                  width={600}
-                  theme={VictoryTheme.material}
-                  containerComponent={
-                    <VictoryVoronoiContainer
-                      labels={(d) => {
-                        return d.datum.y;
-                      }}
-                    />
-                  }
-                >
-                  <VictoryAxis
-                    fixLabelOverlap={true}
-                  />
-                  <VictoryAxis dependentAxis={true} />
+    style={{
+      data: { stroke: "red", strokeWidth: 2 },
+      labels: { angle: -90, fill: "red", fontSize: 20 }
+    }}
+    // labels={["Important"]}
+    labelComponent={<VictoryLabel y={100}/>}
+    x={() => 23.5}
+  />
                   <VictoryLabel x={300} y={50} textAnchor="middle" />
 
                   <VictoryBar
@@ -187,7 +203,7 @@ const windowValues = [
 
 {[1,2,3,4,5].map((el)=>{
 return (
-  <div className='signals-table-row'>
+  <div key={el} className='signals-table-row'>
   <div>
                         hello
                       </div>
