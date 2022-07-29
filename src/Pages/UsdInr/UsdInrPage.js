@@ -25,7 +25,7 @@ export default function UsdInrPage() {
       const eqDdResponse = await equityAndDrawdown(window)
       const corrResponse = await correlationPlots(window)
       console.log(eqDdResponse)
-      return {...eqDdResponse.data.body,...corrResponse.data.body};
+      return {...eqDdResponse.data,...corrResponse.data};
     }
     getResponse().then(response => {
       setState(response)
