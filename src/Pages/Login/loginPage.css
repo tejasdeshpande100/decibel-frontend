@@ -43,6 +43,13 @@
     font-size: 25px;
     margin-bottom: 20px;
   }
+
+.signup{
+  cursor: pointer;
+    color:#1976d1;
+    font-weight: bold;
+    text-decoration: none;
+}
   
   .input-container {
     display: flex;

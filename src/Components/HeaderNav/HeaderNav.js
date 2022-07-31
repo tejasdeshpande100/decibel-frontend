@@ -1,5 +1,4 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import DecibelLogo from '../../images/decibelLogo.png';
 import Menu from '@mui/material/Menu';

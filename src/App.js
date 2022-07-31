@@ -13,12 +13,12 @@ import KiteCallbackPage from "./Pages/KiteCallback/KiteCallbackPage";
 import UsdInrPage from './Pages/UsdInr/UsdInrPage'
 import PrivateRoute from "./PrivateRoute"
 import HeaderNav from './Components/HeaderNav/HeaderNav';
-import {useSelector} from 'react-redux'
+// import {useSelector} from 'react-redux'
 // import Axios from 'axios'
 
 function App() {
   const {width,height}=getWindowDimensions()
-  const isLoggedIn=useSelector(state=>state.isLoggedIn)
+  // const isLoggedIn=useSelector(state=>state.isLoggedIn)
 
 
   return (

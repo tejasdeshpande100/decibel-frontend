@@ -2,13 +2,15 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+// import List from '@mui/material/List';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+// import Divider from '@mui/material/Divider';
+// import ListItem from '@mui/material/ListItem';
+// import ListItemButton from '@mui/material/ListItemButton';
+// import ListItemIcon from '@mui/material/ListItemIcon';
+// import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
+import { isAuthenticated } from '../../api/auth';
 import './index.css'
 
 export default function TemporaryDrawer() {
@@ -27,6 +29,15 @@ export default function TemporaryDrawer() {
     setState({ ...state, [anchor]: open });
   };
 
+  const signOut = ()=>{
+    localStorage.removeItem('token')
+    window.location.href = '/decibel-login'
+    }
+
+  const signIn = ()=>{
+    window.location.href = '/decibel-login'
+  }
+
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
@@ -34,31 +45,31 @@ export default function TemporaryDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
-        {['About', 'Lorem', 'Ipsum'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+      <div className='acc-icon-wrapper'>
+      <AccountBoxIcon style={{fontSize: '80px'}} />
+      <div>
+      {isAuthenticated()?
+      <Button onClick={signOut} variant="contained">Sign Out</Button>:
+      <Button onClick={signIn} variant="contained">Log in</Button>
+      }
+      </div>
+      </div>
+      
+      
+      {/* <List>
+      
+          <ListItem key={'About'} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
+                
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={'About'} />
             </ListItemButton>
           </ListItem>
-        ))}
+      
       </List>
-      <Divider />
-      <List>
-        {['Broker', 'Lorem'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <Divider /> */}
+      
     </Box>
   );
 

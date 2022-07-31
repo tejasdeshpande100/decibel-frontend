@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import {useDispatch} from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-
-import {signIn} from '../../redux/actions'
+// import {useDispatch} from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom'
+import CircularProgress from '@mui/material/CircularProgress';
+// import {signIn} from '../../redux/actions'
 import {signup} from "../../api/auth";
 import Button from '@mui/material/Button';
 
@@ -11,18 +11,21 @@ import "./signupPage.css";
 function SignupPage(props) {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
- const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false);
+//  const dispatch = useDispatch()
  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     //Prevent page reload
     event.preventDefault();
+
+    setLoading(true);
     
     var { email, pass } = document.forms[0];
 
     let response = await signup({email:email.value,password:pass.value})
 
-
+    setLoading(false);
     if(response.status !== 200){
         setErrorMessages({ name: "email", message: response.data.message  });
     }else{
@@ -47,16 +50,21 @@ function SignupPage(props) {
       {renderErrorMessage("email")}
         <div className="input-container">
          
-          <input placeholder="email" type="email" name="email" required />
+          <input placeholder="Email" type="email" name="email" required />
         
         </div>
         <div className="input-container">
          
-          <input placeholder="passowrd" type="password" name="pass" required />
+          <input placeholder="Passowrd" type="password" name="pass" required />
 
         </div>
         <div className="button-container">
-        <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">Signup</Button>
+        <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">{loading?<CircularProgress
+            size={25}
+            sx={{
+              color: 'white',
+            }}
+          />:'Signup'}</Button>
         </div>
       </form>
     </div>
@@ -64,10 +72,11 @@ function SignupPage(props) {
 
   return (
     <div className="app">
-      <div className="login-form">
+      <div style={{paddingBottom:'4em'}} className="login-form">
         <div className="title">Sign Up</div>
         { renderForm}
       </div>
+      <Link to='/decibel-login' className="signup">Sign In</Link>
     </div>
   );
 }

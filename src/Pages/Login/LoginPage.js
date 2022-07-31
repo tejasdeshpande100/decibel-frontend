@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {useDispatch} from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+// import {useDispatch} from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
+import CircularProgress from '@mui/material/CircularProgress';
 import {signIn} from '../../redux/actions'
 import {login, google_login} from "../../api/auth";
 import Button from '@mui/material/Button';
@@ -12,7 +13,8 @@ import "./loginPage.css";
 function LoginPage(props) {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
- const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false);
+//  const dispatch = useDispatch()
  const navigate = useNavigate();
 
  async function handleCallbackResponse(response) {
@@ -31,7 +33,8 @@ function LoginPage(props) {
         
     }else{
         
-        dispatch(signIn())
+        // dispatch(signIn())
+        console.log(response.data);
         localStorage.setItem('token',response.data.token)
         localStorage.setItem('email',response.data.user.email)
 
@@ -49,22 +52,26 @@ useEffect(() => {
     callback: handleCallbackResponse,
   });
   
+
   
   google.accounts.id.renderButton(
     document.getElementById("signInDiv"),
-    {theme:"outline",size:"large"}
+    {theme:"outline",size:"large", shape:'circle', type:'icon'}
   )
+
+  
 }, [])
 
   const handleSubmit = async (event) => {
     //Prevent page reload
     event.preventDefault();
-    
+    setLoading(true);
+
     var { email, pass } = document.forms[0];
 
     let response = await login({email:email.value,password:pass.value})
-    console.log('response',response)
-
+    
+setLoading(false);
     if(response.status !== 200){
       if(response.data && response.data.message){
         setErrorMessages({ name: "email", message: response.data.message  });
@@ -74,7 +81,7 @@ useEffect(() => {
         
     }else{
         
-        dispatch(signIn())
+        // dispatch(signIn())
         localStorage.setItem('token',response.data.token)
         localStorage.setItem('email',response.data.user.email)
 
@@ -97,22 +104,30 @@ useEffect(() => {
       {renderErrorMessage("email")}
         <div className="input-container">
           {/* <label>email </label> */}
-          <input type="email" placeholder="email" name="email" required />
+          <input type="email" placeholder="Email" name="email" required />
         
         </div>
         <div className="input-container">
           {/* <label>Password </label> */}
-          <input type="password" placeholder="password" name="pass" required />
+          <input type="password" placeholder="Password" name="pass" required />
 
         </div>
         <div className="button-container">
          
-          <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">Login</Button>
+          <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">{loading?<CircularProgress
+            size={25}
+            sx={{
+              color: 'white',
+            }}
+          />:'Login'}</Button>
          
         </div>
       </form>
-      <div>
-      <div style={{width:"500px"}} id="signInDiv"></div>
+      <div style={{textAlign:'center', margin:'10px 0'}} >
+     or
+      </div>
+      <div style={{display:'flex'}}>
+      <div style={{margin:'auto'}} id="signInDiv"></div>
       </div>
     </div>
   );
@@ -123,6 +138,7 @@ useEffect(() => {
         <div className="title">Sign In</div>
         { renderForm}
       </div>
+      <Link to='/decibel-signup' className="signup">Sign up</Link>
     </div>
   );
 }

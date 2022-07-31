@@ -6,3 +6,12 @@
     margin-bottom: 2em;
     z-index: 1;
   }
+
+  .acc-icon-wrapper{
+    text-align: center;
+    margin: 2em 0 0.5em 0;
+  }
+
+  .acc-icon{
+    font-size: 48px;
+  }
