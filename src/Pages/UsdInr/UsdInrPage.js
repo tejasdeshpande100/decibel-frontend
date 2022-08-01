@@ -2,16 +2,6 @@ import React,{useState, useEffect} from 'react'
 import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
 import Autocomplete from '@mui/material/Autocomplete';
-import {
-    VictoryChart,
-    VictoryLegend,
-    VictoryLine,
-    VictoryLabel,
-    VictoryVoronoiContainer,
-    VictoryAxis,
-    VictoryTheme,
-    VictoryBar
-  } from "victory";
 import {equityAndDrawdown, correlationPlots} from '../../api/f2f/f2f'
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -21,6 +11,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import LineChart from "../../Components/Charts/LineChart";
+import BarChart from "../../Components/Charts/BarChart";
 import './usdInrPage.css'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -55,8 +47,127 @@ export default function UsdInrPage() {
     const getResponse = async () => {
       const eqDdResponse = await equityAndDrawdown(window)
       const corrResponse = await correlationPlots(window)
-      console.log(eqDdResponse)
-      return {...eqDdResponse.data,...corrResponse.data};
+      const lineOptions = {
+        plugins: {
+          title: {
+              display: true,
+              text: 'Custom Chart Title',
+              position:'top'
+          }
+      },
+        elements:{
+          line:{
+            borderWidth: 0.1
+          },
+            point:{
+                borderWidth: 0,
+                radius: 0,
+                backgroundColor: 'rgba(0,0,0,0)'
+            }
+        }
+    }
+      return {
+        corr:{
+        options: lineOptions,
+        data:{
+          labels: corrResponse.data.corr.x.map(x => x.split('-')[0]),
+          datasets: [
+            {
+              label: "Users Gained",
+              data: corrResponse.data.corr.y,
+              backgroundColor: [
+                "rgba(75,192,192,1)",
+                "#ecf0f1",
+                "#50AF95",
+                "#f3ba2f",
+                "#2a71d0",
+              ],
+              borderColor: "black",
+              borderWidth: 2,
+            },
+          ],
+        }
+          
+        },
+        corr_hist:{
+          options: lineOptions,
+          data:{
+            labels: corrResponse.data.corr_hist.x.map(x => Math.round((parseFloat(x) + Number.EPSILON) * 100) / 100),
+            datasets: [
+              {
+                label: "Users Gained",
+                data: corrResponse.data.corr_hist.y,
+                backgroundColor: [
+                  "rgba(75,192,192,1)",
+                  "#ecf0f1",
+                  "#50AF95",
+                  "#f3ba2f",
+                  "#2a71d0",
+                ],
+                borderColor: "black",
+                borderWidth: 2,
+              },
+            ]
+        }
+      },
+        dd:{
+          options: lineOptions,
+          data:{
+            labels: eqDdResponse.data.dd.x.map(x => x.split('-')[0]),
+            datasets: [
+              {
+                label: "Users Gained",
+                data: eqDdResponse.data.dd.y,
+                backgroundColor: [
+                  "rgba(75,192,192,1)",
+                  "#ecf0f1",
+                  "#50AF95",
+                  "#f3ba2f",
+                  "#2a71d0",
+                ],
+                borderColor: "black",
+                borderWidth: 2,
+              },
+            ]
+        }
+      },
+        eq:{
+          options: lineOptions,
+          data:{
+            labels: eqDdResponse.data.eq.x.map(x => x.split('-')[0]),
+            datasets: [
+              {
+                label: "Users Gained",
+                data: eqDdResponse.data.eq.y,
+                backgroundColor: [
+                  "rgba(75,192,192,1)",
+                  "#ecf0f1",
+                  "#50AF95",
+                  "#f3ba2f",
+                  "#2a71d0",
+                ],
+                borderColor: "black",
+                borderWidth: 2,
+              },
+              {
+                label: "Nifty",
+                data: eqDdResponse.data.nf.y,
+                // backgroundColor: [
+                //   "rgba(75,192,192,1)",
+                //   "#ecf0f1",
+                //   "#50AF95",
+                //   "#f3ba2f",
+                //   "#2a71d0",
+                // ],
+                borderColor: "black",
+                borderWidth: 2,
+              }
+            ],
+          }
+            
+          },
+        signals: corrResponse.data.signal
+      }
     }
     getResponse().then(response => {
       setState(response)
@@ -68,7 +179,7 @@ export default function UsdInrPage() {
 console.log(window)
   }, [window])
 
-
+  console.log(state)
    
 // window sizes
 const windowValues = [
@@ -111,201 +222,41 @@ const windowValues = [
             <div className="body-container">  
 
             
-            {state ? (<>
+            {state ? (
+            <>
             <div className="chart-title-container">
                 <div className="chart-title">Equity/Drawdown Curve</div>
               </div>
               <div className="charts-container">
               <div className="chart-container">
-               
-    <VictoryChart
-    width={600}
-    theme={VictoryTheme.material}
-    containerComponent={
-      <VictoryVoronoiContainer
-      labels={(d) => {
-        return Math.round((d.datum.y + Number.EPSILON) * 100) / 100;
-      }}
-      />
-    }
-  >
-    <VictoryLegend x={125} y={50}
-  	// title="Legend"
-    centerTitle
-    orientation="horizontal"
-    gutter={20}
-    style={{ border: { stroke: "black" }, title: {fontSize: 20 } }}
-    data={[
-      { name: "One", symbol: { fill: "tomato", type: "star" } },
-      { name: "Two", symbol: { fill: "orange" } },
-      { name: "Three", symbol: { fill: "gold" } }
-    ]}
-  />
-    <VictoryAxis
-      fixLabelOverlap={true}
-      tickFormat={(t) => t.split('-')[0]}
-    />
-    <VictoryAxis dependentAxis={true} />
-    <VictoryLine
-      data={state?state.eq:[]}
-    />
-    <VictoryLine
-      data={state?state.nf:[]}
-    />
-    
-  </VictoryChart>
-   
+              <LineChart 
+              chartOptions={state.eq.options}
+              chartData={state.eq.data} />
                
               </div>
 
                 <div className="chart-container">
-                <VictoryChart
-                  width={600}
-                  theme={VictoryTheme.material}
-                  containerComponent={
-                    <VictoryVoronoiContainer
-                    labels={(d) => {
-                      return Math.round((d.datum.y + Number.EPSILON) * 100) / 100;
-                    }}
-                    />
-                  }
-                >
-                  <VictoryAxis
-                    fixLabelOverlap={true}
-                    crossAxis
-                    offsetY={50}
-                    tickFormat={(t) => t.split('-')[0]}
-                  />
-                  <VictoryAxis  dependentAxis={true} />
-                  <VictoryLabel x={300} y={50} textAnchor="middle" />
-
-                  <VictoryLine
-                    data={state?state.corr:[]}
-                  />
-                  
-                </VictoryChart>
+               
+                <LineChart 
+              chartOptions={state.dd.options}
+              chartData={state.dd.data} />
                   </div>
 
                   <div className="chart-container">
-                <VictoryChart
-                  width={600}
-                  theme={VictoryTheme.material}
-                  containerComponent={
-                    <VictoryVoronoiContainer
-                      labels={(d) => {
-                        return Math.round((d.datum.y + Number.EPSILON) * 100) / 100;
-                      }}
-                    />
-                  }
-                >
-                  <VictoryAxis
-                  tickFormat={(t) => t.split('-')[0]}
-                    fixLabelOverlap={true}
-                  />
-                  <VictoryAxis dependentAxis={true} />
-                  <VictoryLabel x={300} y={50} textAnchor="middle" />
-
-                  <VictoryLine
-                    data={state?state.dd:[]}
-                  />
-                  
-                </VictoryChart>
+                  <LineChart 
+              chartOptions={state.corr.options}
+              chartData={state.corr.data} />
               </div>
 
                   <div className="chart-container">
-                <VictoryChart
-                  width={600}
-                  theme={VictoryTheme.material}
-                  containerComponent={
-                    <VictoryVoronoiContainer
-                    labels={(d) => {
-                      return Math.round((d.datum.y + Number.EPSILON) * 100) / 100;
-                    }}
-                    />
-                  }
-                >
-                  <VictoryAxis
-                    fixLabelOverlap={true}
-                    tickFormat={(t) => Math.round(t* 100)/100 }
-                  />
-                  <VictoryAxis dependentAxis={true} />
-                  <VictoryLine
-    style={{
-      data: { stroke: "red", strokeWidth: 2 },
-      labels: { angle: -90, fill: "red", fontSize: 20 }
-    }}
-    // labels={["Important"]}
-    labelComponent={<VictoryLabel y={100}/>}
-    x={() => 23.5}
-  />
-                  <VictoryLabel x={300} y={50} textAnchor="middle" />
-
-                  <VictoryBar
-                    data={state?state.corr_hist:[]}
-                  />
-                  
-                </VictoryChart>
+                  <BarChart 
+              chartOptions={state.corr_hist.options}
+              chartData={state.corr_hist.data} />
                   </div>
                 
             </div>
-            {/* <div className='signals-table-container'>
-                  <div className='signals-table'>
-                  <div  className='header-row'>
-  <div className='table-cell'>
-                        DATE
-                      </div>
-                      <div className='table-cell'>
-                      EXIT
-                      </div>
-                      <div className='table-cell'>
-                      LONG
-                      </div>
-                      <div className='table-cell'>
-                      NIFTY CLOSE
-                      </div>
-                      <div className='table-cell'>
-                      NIFTY REGIME
-                      </div>
-                      <div className='table-cell'>
-                      USD CLOSE
-                      </div>
-                      <div className='table-cell'>
-                      USD REGIME
-                      </div>
-                      </div>
+           
 
-{state.signal.map((el)=>{
-  console.log(el)
-return (
-  <div key={el.date} className='signals-table-row'>
-  <div className='table-cell'>
-                        {el.date}
-                      </div>
-                      <div className='table-cell'>
-                      {el.exit}
-                      </div>
-                      <div className='table-cell'>
-                      {el.long}
-                      </div>
-                      <div className='table-cell'>
-                      {el.nifty_close}
-                      </div>
-                      <div className='table-cell'>
-                      {el.nifty_regime}
-                      </div>
-                      <div className='table-cell'>
-                      {el.usd_close}
-                      </div>
-                      <div className='table-cell'>
-                      {el.usd_regime}
-                      </div>
-                      </div>
-                      
-)
-})}
-                </div>      
-                    
-            </div> */} 
 
             <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -321,7 +272,7 @@ return (
           </TableRow>
         </TableHead>
         <TableBody>
-          {state.signal.map((row) => (
+          {state.signals.map((row) => (
             <TableRow
               key={row.date}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
