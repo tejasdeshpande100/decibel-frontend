@@ -6,16 +6,25 @@
     z-index: 2;
     position: fixed;
     width: 100%;
-    background-color: white;
+    background-color: #1A1A1A;
   }
 
 
 .logo{
+    font-size: 19px;
     height: 2em;
     cursor: pointer;
+    font-weight: bold;
+    font-style: italic;
+text-align: left;
+/* font: normal normal normal 37px/43px Black Widow Movie; */
+letter-spacing: 1.26px;
+color: #FFFFFF;
+opacity: 1;
 }
 
 .account-icon-container{
     margin-right: 2em;
     cursor: pointer;
+ color: #144FA0;
 }

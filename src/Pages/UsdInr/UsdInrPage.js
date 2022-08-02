@@ -13,19 +13,26 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import LineChart from "../../Components/Charts/LineChart";
 import BarChart from "../../Components/Charts/BarChart";
+import getWindowDimensions from '../../utils/getWindowDimensions';
 import './usdInrPage.css'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: '#404040',
-    color: theme.palette.common.white,
+    backgroundColor: '#EAEAEA',
+    color: '#343434',
+    fontWeight: 'bolder',
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    color:'#343434',
+    fontWeight: 'bold',
   },
 }));
 
 export default function UsdInrPage() {
+
+  const {width,height}=getWindowDimensions()
+  if(0) console.log(width,height)
 
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -48,11 +55,33 @@ export default function UsdInrPage() {
       const eqDdResponse = await equityAndDrawdown(window)
       const corrResponse = await correlationPlots(window)
       const lineOptions = {
+        scales: {
+          
+          x: {
+            title: {
+              display: true,
+              text: 'Date'
+            },
+            ticks: {
+            
+                      minRotation: 0,
+                      maxRotation: 0,
+            }
+          }
+        },
+        
         plugins: {
+          
+          subtitle: {
+            display: true,
+            text: `Switching Strategy with window size =${window} days`,
+            align:'start'
+        },
           title: {
               display: true,
               text: 'Custom Chart Title',
-              position:'top'
+              position:'top',
+              align:'start'
           }
       },
         elements:{
@@ -66,23 +95,36 @@ export default function UsdInrPage() {
             }
         }
     }
+
+    const edDdLineOptions = {...lineOptions}
+    console.log(width)
+    if(width>700) edDdLineOptions.aspectRatio= 3;
+    edDdLineOptions.scales.x.ticks.maxTicksLimit= 14
+
+    const corrLineOptions = {...lineOptions}
+    corrLineOptions.scales.x.ticks.maxTicksLimit= 10
       return {
         corr:{
-        options: lineOptions,
+          options: {...lineOptions,scales:{...lineOptions.scales,y:{
+            title: {
+              display: true,
+              text: 'text'
+            }
+          }},plugins: {
+            ...lineOptions.plugins,
+            title: {...lineOptions.plugins.title,
+              text: 'Correlation Curve',
+            }}},
         data:{
           labels: corrResponse.data.corr.x.map(x => x.split('-')[0]),
           datasets: [
             {
-              label: "Users Gained",
+              label: "correlation",
               data: corrResponse.data.corr.y,
-              backgroundColor: [
-                "rgba(75,192,192,1)",
-                "#ecf0f1",
-                "#50AF95",
-                "#f3ba2f",
-                "#2a71d0",
-              ],
-              borderColor: "black",
+              backgroundColor: 
+              "rgba(75,192,192,1)",
+              
+            borderColor: "rgba(75,192,192,1)",
               borderWidth: 2,
             },
           ],
@@ -90,76 +132,84 @@ export default function UsdInrPage() {
           
         },
         corr_hist:{
-          options: lineOptions,
+          options: {...lineOptions,scales:{...lineOptions.scales,y:{
+            title: {
+              display: true,
+              text: 'text'
+            }
+          }},plugins: {
+            ...lineOptions.plugins,
+            title: {...lineOptions.plugins.title,
+              text: 'Correlation Histogram',
+            }}},
           data:{
             labels: corrResponse.data.corr_hist.x.map(x => Math.round((parseFloat(x) + Number.EPSILON) * 100) / 100),
             datasets: [
               {
-                label: "Users Gained",
+                label: "text",
                 data: corrResponse.data.corr_hist.y,
-                backgroundColor: [
+                backgroundColor: 
                   "rgba(75,192,192,1)",
-                  "#ecf0f1",
-                  "#50AF95",
-                  "#f3ba2f",
-                  "#2a71d0",
-                ],
-                borderColor: "black",
+                  
+                borderColor: "rgba(75,192,192,1)",
                 borderWidth: 2,
               },
             ]
         }
       },
         dd:{
-          options: lineOptions,
+        options: {...edDdLineOptions,scales:{...lineOptions.scales,y:{
+          title: {
+            display: true,
+            text: 'Drawdown'
+          }
+        }},plugins: {
+          ...lineOptions.plugins,
+            title: {...edDdLineOptions.plugins.title,
+              text: 'Drawdown Curve',
+            }
+                   }},
           data:{
             labels: eqDdResponse.data.dd.x.map(x => x.split('-')[0]),
             datasets: [
               {
-                label: "Users Gained",
+                label: "Drawdown",
                 data: eqDdResponse.data.dd.y,
-                backgroundColor: [
-                  "rgba(75,192,192,1)",
-                  "#ecf0f1",
-                  "#50AF95",
-                  "#f3ba2f",
-                  "#2a71d0",
-                ],
-                borderColor: "black",
+                
+                borderColor: "#D86F35",
+                backgroundColor: "#D86F35",
                 borderWidth: 2,
               },
             ]
         }
       },
         eq:{
-          options: lineOptions,
+          options: {...edDdLineOptions,scales:{...lineOptions.scales,y:{
+            title: {
+              display: true,
+              text: 'Equity'
+            }
+          }},plugins: {
+            ...lineOptions.plugins,
+ title: {...edDdLineOptions.plugins.title,
+   text: 'Equity Curve',
+ }
+        }},
           data:{
             labels: eqDdResponse.data.eq.x.map(x => x.split('-')[0]),
             datasets: [
               {
-                label: "Users Gained",
+                label: "Strategy",
                 data: eqDdResponse.data.eq.y,
-                backgroundColor: [
-                  "rgba(75,192,192,1)",
-                  "#ecf0f1",
-                  "#50AF95",
-                  "#f3ba2f",
-                  "#2a71d0",
-                ],
-                borderColor: "black",
+                borderColor: "#D86F35",
                 borderWidth: 2,
+                backgroundColor: '#D86F35',
               },
               {
                 label: "Nifty",
                 data: eqDdResponse.data.nf.y,
-                // backgroundColor: [
-                //   "rgba(75,192,192,1)",
-                //   "#ecf0f1",
-                //   "#50AF95",
-                //   "#f3ba2f",
-                //   "#2a71d0",
-                // ],
-                borderColor: "black",
+                borderColor: "#5FC9E2",
+                backgroundColor: '#5FC9E2',
                 borderWidth: 2,
               }
             ],
@@ -176,10 +226,10 @@ export default function UsdInrPage() {
       console.log(error)
     })
 
-console.log(window)
+
   }, [window])
 
-  console.log(state)
+
    
 // window sizes
 const windowValues = [
@@ -196,14 +246,24 @@ const windowValues = [
   return (
     <div className="container">
         <div className='title'>
-            Nifty Strategy based on USD/INR analysis
+        IDENTIFYING MARKET REGIMES
+        </div>
+        <div className='sub-title'>
+        Switching Strategy – Longs Only – NIFTY or USDINR
+        </div>
+        <div className='sub-title'>
+        Face2Face Talk on 04th Aug 2022
         </div>
   <div className='sub-header'>
-    <div className='sub-title'>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ligula nisi, mollis vitae iaculis ac, condimentum non tellus. Phasellus vel dictum urna. In mollis est arcu, a porttitor velit scelerisque ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut congue pellentesque bibendum. Morbi pharetra nibh nec massa maximus, ac facilisis quam posuere.
+    This page shows the current signal of the Switching strategy shared with the viewers of Face2Face Talk on 04-Aug-22. A link to Youtube video is available at the bottom of this page. 
+Traders can choose from selective window/period sizes on this page and the results of this page will update. This can help discretionary traders on performing Multi-Time Frame analysis too. The default setting is 21 Days period. 
+  </div>
+  <div className='autocomplete-container'>
+    <div>
+     
     </div>
-    <div className='autocomplete-container'>
     <Autocomplete
+    style={{width:'20%'}}
       disablePortal
       id="combo-box-demo"
      
@@ -213,11 +273,9 @@ const windowValues = [
         setState(null)
         setWindow(value.value)
       }}
-      renderInput={(params) => <TextField {...params} label="Window" />}
+      renderInput={(params) => <TextField {...params} label="Duration" />}
     />
       </div>
-  </div>
-   
   <div className="body-wrapper">
             <div className="body-container">  
 
@@ -225,22 +283,23 @@ const windowValues = [
             {state ? (
             <>
             <div className="chart-title-container">
-                <div className="chart-title">Equity/Drawdown Curve</div>
+                {/* <div className="chart-title">Equity/Drawdown Curve</div> */}
               </div>
-              <div className="charts-container">
-              <div className="chart-container">
+              <div style={{width:'auto'}} className='chart-container' >
               <LineChart 
               chartOptions={state.eq.options}
               chartData={state.eq.data} />
                
               </div>
 
-                <div className="chart-container">
+                <div style={{width:'auto'}} className='chart-container' >
                
                 <LineChart 
               chartOptions={state.dd.options}
               chartData={state.dd.data} />
                   </div>
+              <div className="charts-container">
+              
 
                   <div className="chart-container">
                   <LineChart 
@@ -285,9 +344,9 @@ const windowValues = [
               </TableCell>
               <TableCell align="center">{row.long}</TableCell>
               <TableCell align="center">{row.nifty_close}</TableCell>
-              <TableCell align="center">{row.nifty_regime}</TableCell>
+              <TableCell style={row.nifty_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.nifty_regime}</TableCell>
               <TableCell align="center">{row.usd_close}</TableCell>
-              <TableCell align="center">{row.usd_regime}</TableCell>
+              <TableCell style={row.usd_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.usd_regime}</TableCell>
             </TableRow>
           ))}
         </TableBody>

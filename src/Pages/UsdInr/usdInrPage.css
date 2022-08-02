@@ -5,7 +5,14 @@
 
 .title{
     text-align: center;
-    margin-top: 1em;
+    margin-top: 2em;
+    font-weight: bolder;
+}
+
+.sub-title{
+  text-align: center;
+    margin-bottom: 1em;
+    font-weight: bold;
 }
 
 .window-size-input{
@@ -14,15 +21,15 @@
 
 .body-wrapper {
     display: flex;
-    margin-top: 1em;
+  
   }
   
   .body-container {
     /* box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05); */
     border-radius: 10px;
-    width: 90%;
+    width: 85%;
     /* height: 300px; */
-    margin: 0.5em auto;
+    margin:  auto;
     padding: 21px 15px;
   }
 
@@ -30,11 +37,17 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-top: 2em;
+    margin-bottom: 2em;
+    
   }
 
   .chart-container{
-    width: 50%;
+    margin-top: 1.5em;
+    width: 48%;
+    border: 2px solid #E2E2E2;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 14px;
+    padding: 5px;
   }
 
   .signals-table-container{
@@ -74,20 +87,19 @@
   }
 
   .sub-header{
-    display: flex;
-    justify-content: space-between;
-    width: 90%;
    
+    
+    width: 85%;
+  
 
-    margin: auto;
-  }
-
-  .sub-title{
-    width: 80%;
+    margin: 1em auto;
   }
 
   .autocomplete-container{
-    width: 18%;
+    margin: auto;
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
     
   }
   .chart-skeleton{

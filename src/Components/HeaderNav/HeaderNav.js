@@ -27,9 +27,11 @@ export default function HeaderNav() {
 
   return (
     <div className='nav'>
-        <div className='logo-container'>
-<img className='logo' src={DecibelLogo} alt='Devibel'/>
-        </div>
+      
+{/* <img className='logo' src={DecibelLogo} alt='Devibel'/> */}
+<div className='logo'>DICE</div>
+
+    
         <div className='account-icon-container'>
 <AccountBoxIcon onClick={handleClick} fontSize='large'  />
 {isAuthenticated()?<Menu
