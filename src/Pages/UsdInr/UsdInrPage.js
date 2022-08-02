@@ -34,17 +34,9 @@ export default function UsdInrPage() {
   const {width,height}=getWindowDimensions()
   if(0) console.log(width,height)
 
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
+
   
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
+
 
   const [state, setState] = useState()
   const [window, setWindow] = useState(14)
@@ -60,12 +52,11 @@ export default function UsdInrPage() {
           x: {
             title: {
               display: true,
-              text: 'Date'
+              text: 'Year'
             },
             ticks: {
-            
-                      minRotation: 0,
-                      maxRotation: 0,
+              
+                     
             }
           }
         },
@@ -96,27 +87,54 @@ export default function UsdInrPage() {
         }
     }
 
+    if(width>400){
+      lineOptions.scales.x.ticks.minRotation = 0;
+      lineOptions.scales.x.ticks.maxRotation = 0
+    } 
     const edDdLineOptions = {...lineOptions}
     console.log(width)
-    if(width>700) edDdLineOptions.aspectRatio= 3;
+    edDdLineOptions.aspectRatio= 1.8;
+    if(width>700) edDdLineOptions.aspectRatio= 2.7;
+    if(width<400) edDdLineOptions.aspectRatio= 1;
+    
     edDdLineOptions.scales.x.ticks.maxTicksLimit= 14
 
     const corrLineOptions = {...lineOptions}
     corrLineOptions.scales.x.ticks.maxTicksLimit= 10
+    corrLineOptions.aspectRatio= 1.5;
+    if(width<700) corrLineOptions.aspectRatio= 1.4;
+    if(width<400) corrLineOptions.aspectRatio= 1;
+     
+    console.log(edDdLineOptions)
       return {
         corr:{
-          options: {...lineOptions,scales:{...lineOptions.scales,y:{
+          options: {...corrLineOptions,scales:{...lineOptions.scales,y:{
             title: {
               display: true,
-              text: 'text'
+              text: 'Correlation'
             }
-          }},plugins: {
+          },
+        x:{
+          ticks: {
+            ...corrLineOptions.scales.x.ticks,
+            // Include a dollar sign in the ticks
+            callback: function(value, index, ticks) {
+             
+                return corrResponse.data.corr.x[index].split('-')[0];
+            }
+          }
+        }},plugins: {
             ...lineOptions.plugins,
+            subtitle: {
+              display: true,
+              text: `Rolling ${window}-days correlation of Nifty & INR Daily Returns`,
+              align:'start'
+          },
             title: {...lineOptions.plugins.title,
               text: 'Correlation Curve',
             }}},
         data:{
-          labels: corrResponse.data.corr.x.map(x => x.split('-')[0]),
+          labels: corrResponse.data.corr.x,
           datasets: [
             {
               label: "correlation",
@@ -132,13 +150,28 @@ export default function UsdInrPage() {
           
         },
         corr_hist:{
-          options: {...lineOptions,scales:{...lineOptions.scales,y:{
+          
+          options: {...corrLineOptions,scales:{...lineOptions.scales,y:{
+            
             title: {
               display: true,
-              text: 'text'
+              text: '% of observations in a bucket'
             }
-          }},plugins: {
+          },x:{...corrLineOptions.scales.x,
+            title: {
+              display: true,
+              text: 'Correlation Buckets'
+            },
+            
+          }
+        
+        },plugins: {
             ...lineOptions.plugins,
+            subtitle: {
+              display: true,
+              text: `Distribution of ${window}-days correlation of Nifty & INR Daily Returns`,
+              align:'start'
+          },
             title: {...lineOptions.plugins.title,
               text: 'Correlation Histogram',
             }}},
@@ -163,6 +196,15 @@ export default function UsdInrPage() {
             display: true,
             text: 'Drawdown'
           }
+        },
+        x:{
+          ticks: {...edDdLineOptions.scales.x.ticks,
+            // Include a dollar sign in the ticks
+            callback: function(value, index, ticks) {
+             
+                return eqDdResponse.data.dd.x[index].split('-')[0];
+            }
+          }
         }},plugins: {
           ...lineOptions.plugins,
             title: {...edDdLineOptions.plugins.title,
@@ -170,7 +212,7 @@ export default function UsdInrPage() {
             }
                    }},
           data:{
-            labels: eqDdResponse.data.dd.x.map(x => x.split('-')[0]),
+            labels: eqDdResponse.data.dd.x,
             datasets: [
               {
                 label: "Drawdown",
@@ -189,6 +231,14 @@ export default function UsdInrPage() {
               display: true,
               text: 'Equity'
             }
+          },x:{
+            ticks: {...edDdLineOptions.scales.x.ticks,
+              // Include a dollar sign in the ticks
+              callback: function(value, index, ticks) {
+               
+                  return eqDdResponse.data.eq.x[index].split('-')[0];
+              }
+            }
           }},plugins: {
             ...lineOptions.plugins,
  title: {...edDdLineOptions.plugins.title,
@@ -196,7 +246,7 @@ export default function UsdInrPage() {
  }
         }},
           data:{
-            labels: eqDdResponse.data.eq.x.map(x => x.split('-')[0]),
+            labels: eqDdResponse.data.eq.x,
             datasets: [
               {
                 label: "Strategy",
@@ -322,11 +372,13 @@ Traders can choose from selective window/period sizes on this page and the resul
         <TableHead>
           <TableRow>
             <StyledTableCell>DATE</StyledTableCell>
-            <StyledTableCell align="center">EXIT</StyledTableCell>
+            
             <StyledTableCell align="center">LONG</StyledTableCell>
+            <StyledTableCell align="center">EXIT LONG</StyledTableCell>
             <StyledTableCell align="center">NIFTY CLOSE</StyledTableCell>
-            <StyledTableCell align="center">NIFTY REGIME</StyledTableCell>
             <StyledTableCell align="center">USD CLOSE</StyledTableCell>
+            <StyledTableCell align="center">NIFTY REGIME</StyledTableCell>
+           
             <StyledTableCell align="center">USD REGIME</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -339,13 +391,13 @@ Traders can choose from selective window/period sizes on this page and the resul
               <TableCell component="th" scope="row">
                 {row.date}
               </TableCell>
+              <TableCell align="center">{row.long}</TableCell>
               <TableCell align="center">
                 {row.exit}
               </TableCell>
-              <TableCell align="center">{row.long}</TableCell>
               <TableCell align="center">{row.nifty_close}</TableCell>
-              <TableCell style={row.nifty_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.nifty_regime}</TableCell>
               <TableCell align="center">{row.usd_close}</TableCell>
+              <TableCell style={row.nifty_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.nifty_regime}</TableCell>
               <TableCell style={row.usd_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.usd_regime}</TableCell>
             </TableRow>
           ))}
