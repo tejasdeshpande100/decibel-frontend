@@ -126,6 +126,24 @@ export default function UsdInrPage() {
           }
         }},plugins: {
             ...lineOptions.plugins,
+            annotation: {
+              annotations: {
+                line1: {
+                  type: 'line',
+                  // label: {
+                  //   display: true,
+                  //   content:'y = -0.4',
+                  //   position:'start'
+                  // },
+                  yMin: -0.4,
+                  yMax: -0.4,
+                  borderColor: 'rgb(255, 99, 132)',
+                  borderWidth: 3,
+                  display:true,
+                  borderDash:[5],
+                }
+              }
+            },
             subtitle: {
               display: true,
               text: `Rolling ${window}-days correlation of Nifty & INR Daily Returns`,
@@ -168,6 +186,32 @@ export default function UsdInrPage() {
         
         },plugins: {
             ...lineOptions.plugins,
+            annotation: {
+              annotations: {
+                line1: {
+                  type: 'line',
+                  xMin: 20,
+                  xMax: 20,
+                  borderColor: 'rgb(255, 99, 132)',
+                  borderWidth: 3,
+                  borderDash:[5],
+                },
+                line2: {
+                  type: 'line',
+                  // label: {
+                  //   display: true,
+                  //   content:'y = -0.4',
+                  //   position:'start'
+                  // },
+                  xMin: 33.5,
+                  xMax: 33.5,
+                  borderColor: 'rgb(255, 99, 132)',
+                  borderWidth: 3,
+                  display:true,
+                  borderDash:[5],
+                }
+              }
+            },
             subtitle: {
               display: true,
               text: `Distribution of ${window}-days correlation of Nifty & INR Daily Returns`,
@@ -187,7 +231,7 @@ export default function UsdInrPage() {
                   
                 borderColor: "rgba(75,192,192,1)",
                 borderWidth: 2,
-              },
+              }
             ]
         }
       },
