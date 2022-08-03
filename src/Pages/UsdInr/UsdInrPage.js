@@ -214,12 +214,12 @@ export default function UsdInrPage() {
           data:{
             labels: eqDdResponse.data.dd.x,
             datasets: [
+              
               {
                 label: "Drawdown",
                 data: eqDdResponse.data.dd.y,
-                
-                borderColor: "#D86F35",
-                backgroundColor: "#D86F35",
+                borderColor: "#cc0000",
+                backgroundColor: "#cc0000",
                 borderWidth: 2,
               },
             ]
@@ -364,7 +364,7 @@ Traders can choose from selective window/period sizes on this page and the resul
                   </div>
                 
             </div>
-           
+           <div className='table-heading'>{`Most Recent 10 Trades for Window size = ${window} Days`}</div>
 
 
             <TableContainer component={Paper}>
@@ -376,10 +376,10 @@ Traders can choose from selective window/period sizes on this page and the resul
             <StyledTableCell align="center">LONG</StyledTableCell>
             <StyledTableCell align="center">EXIT LONG</StyledTableCell>
             <StyledTableCell align="center">NIFTY CLOSE</StyledTableCell>
-            <StyledTableCell align="center">USD CLOSE</StyledTableCell>
+            <StyledTableCell align="center">USDINR CLOSE</StyledTableCell>
             <StyledTableCell align="center">NIFTY REGIME</StyledTableCell>
            
-            <StyledTableCell align="center">USD REGIME</StyledTableCell>
+            <StyledTableCell align="center">USDINR REGIME</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

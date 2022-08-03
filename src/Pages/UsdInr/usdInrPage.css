@@ -9,6 +9,11 @@
     font-weight: bolder;
 }
 
+.table-heading{
+    margin-bottom: 1em;
+    color: #343434;
+    font-weight: bolder;
+}
 .sub-title{
   text-align: center;
     margin-bottom: 1em;
