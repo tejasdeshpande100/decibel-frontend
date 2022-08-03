@@ -179,7 +179,7 @@ export default function UsdInrPage() {
             labels: corrResponse.data.corr_hist.x.map(x => Math.round((parseFloat(x) + Number.EPSILON) * 100) / 100),
             datasets: [
               {
-                label: "text",
+                label: "correlation histogram",
                 data: corrResponse.data.corr_hist.y,
                 backgroundColor: 
                   "rgba(75,192,192,1)",
