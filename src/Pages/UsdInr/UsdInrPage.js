@@ -115,6 +115,7 @@ export default function UsdInrPage() {
             }
           },
         x:{
+          ...corrLineOptions.scales.x,
           ticks: {
             ...corrLineOptions.scales.x.ticks,
             // Include a dollar sign in the ticks
@@ -198,6 +199,7 @@ export default function UsdInrPage() {
           }
         },
         x:{
+          ...lineOptions.scales.x,
           ticks: {...edDdLineOptions.scales.x.ticks,
             // Include a dollar sign in the ticks
             callback: function(value, index, ticks) {
@@ -232,6 +234,7 @@ export default function UsdInrPage() {
               text: 'Equity'
             }
           },x:{
+            ...lineOptions.scales.x,
             ticks: {...edDdLineOptions.scales.x.ticks,
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
