@@ -395,7 +395,7 @@ Traders can choose from selective window/period sizes on this page and the resul
        <span style={{fontWeight:'bold'}}>NIFTY 17500 <span style={{color:'rgb(39, 159, 103)'}}> 2.3% <ArrowUpwardIcon/> </span></span> - Last Updated: 27-Jul-2022
     </div>
     <div style={{color:'#343434'}} >
-       <span style={{fontWeight:'bold'}}> USDINR 78.3 <span style={{color:'rgb(195, 45, 45)'}}> -1.8% <ArrowUpwardIcon/> </span></span> - Last Updated: 26-Jul-2022
+       <span style={{fontWeight:'bold'}}> USDINR 78.3 <span style={{color:'rgb(195, 45, 45)'}}> -1.8% <ArrowDownwardIcon/> </span></span> - Last Updated: 26-Jul-2022
     </div>
    
       </div>
