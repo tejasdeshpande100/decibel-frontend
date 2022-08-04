@@ -41,7 +41,7 @@ export default function UsdInrPage() {
 
 
   const [state, setState] = useState()
-  const [window, setWindow] = useState(14)
+  const [window, setWindow] = useState(21)
 
  
   useEffect(() => {
@@ -266,8 +266,8 @@ export default function UsdInrPage() {
               {
                 label: "Strategy Drawdown",
                 data: eqDdResponse.data.dd.y,
-                borderColor: "#660000",
-                backgroundColor: "#660000",
+                borderColor: "#FFA500",
+                backgroundColor: "#FFA500",
                 borderWidth: 2,
               },
               {
