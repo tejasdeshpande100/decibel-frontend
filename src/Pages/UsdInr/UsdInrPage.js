@@ -14,6 +14,8 @@ import Paper from '@mui/material/Paper';
 import LineChart from "../../Components/Charts/LineChart";
 import BarChart from "../../Components/Charts/BarChart";
 import getWindowDimensions from '../../utils/getWindowDimensions';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import './usdInrPage.css'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -205,7 +207,7 @@ export default function UsdInrPage() {
                   // },
                   xMin: 33.5,
                   xMax: 33.5,
-                  borderColor: 'rgb(255, 99, 132)',
+                  borderColor: '#654321',
                   borderWidth: 3,
                   display:true,
                   borderDash:[5],
@@ -239,7 +241,7 @@ export default function UsdInrPage() {
         options: {...edDdLineOptions,scales:{...lineOptions.scales,y:{
           title: {
             display: true,
-            text: 'Drawdown'
+            text: 'Drawdown (%)'
           }
         },
         x:{
@@ -262,10 +264,17 @@ export default function UsdInrPage() {
             datasets: [
               
               {
-                label: "Drawdown",
+                label: "Strategy Drawdown",
                 data: eqDdResponse.data.dd.y,
-                borderColor: "#cc0000",
-                backgroundColor: "#cc0000",
+                borderColor: "#660000",
+                backgroundColor: "#660000",
+                borderWidth: 2,
+              },
+              {
+                label: "Nifty Drawdown",
+                data: eqDdResponse.data.nf_dd.y,
+                borderColor: "#CC0000",
+                backgroundColor: "#CC0000",
                 borderWidth: 2,
               },
             ]
@@ -275,7 +284,7 @@ export default function UsdInrPage() {
           options: {...edDdLineOptions,scales:{...lineOptions.scales,y:{
             title: {
               display: true,
-              text: 'Equity'
+              text: 'Cumulative Return (%)'
             }
           },x:{
             ...lineOptions.scales.x,
@@ -360,18 +369,33 @@ Traders can choose from selective window/period sizes on this page and the resul
      
     </div>
     <Autocomplete
-    style={{width:'20%'}}
+    style={width>500?{width:'20%'}:{width:'40%'}}
       disablePortal
       id="combo-box-demo"
-     
+      defaultValue={{ label: '21', value: 21 }}
       options={windowValues}
       isOptionEqualToValue={(option, value) => option.value === value.value}
       onChange={(event, value) => {
+        // console.log(windowValues)
         setState(null)
         setWindow(value.value)
       }}
-      renderInput={(params) => <TextField {...params} label="Duration" />}
+      renderInput={(params) => <TextField {...params} label="Window" />}
     />
+      </div>
+      <div style={{
+       
+        margin:'auto',
+        width:'85%',
+        marginTop:'0.5em'
+      }}>
+      <div style={{color:'#343434'}} >
+       <span style={{fontWeight:'bold'}}>NIFTY 17500 <span style={{color:'rgb(39, 159, 103)'}}> 2.3% <ArrowUpwardIcon/> </span></span> - Last Updated: 27-Jul-2022
+    </div>
+    <div style={{color:'#343434'}} >
+       <span style={{fontWeight:'bold'}}> USDINR 78.3 <span style={{color:'rgb(195, 45, 45)'}}> -1.8% <ArrowUpwardIcon/> </span></span> - Last Updated: 26-Jul-2022
+    </div>
+   
       </div>
   <div className="body-wrapper">
             <div className="body-container">  
@@ -442,8 +466,8 @@ Traders can choose from selective window/period sizes on this page and the resul
               <TableCell align="center">
                 {row.exit}
               </TableCell>
-              <TableCell align="center">{row.nifty_close}</TableCell>
-              <TableCell align="center">{row.usd_close}</TableCell>
+              <TableCell align="center">{Math.round((parseFloat(row.nifty_close) + Number.EPSILON) * 100) / 100}</TableCell>
+              <TableCell align="center">{Math.round((parseFloat(row.usd_close) + Number.EPSILON) * 100) / 100}</TableCell>
               <TableCell style={row.nifty_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.nifty_regime}</TableCell>
               <TableCell style={row.usd_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.usd_regime}</TableCell>
             </TableRow>
