@@ -384,7 +384,9 @@ Traders can choose from selective window/period sizes on this page and the resul
     />
       </div>
       <div style={{
-       
+       display:'flex',
+       flexWrap:'wrap',
+       justifyContent:'space-between',
         margin:'auto',
         width:'85%',
         marginTop:'0.5em'
