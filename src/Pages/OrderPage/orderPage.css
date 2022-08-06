@@ -1,0 +1,74 @@
+.order-page-container{
+   
+    display: flex;
+    width:90%;
+    margin: 0 auto;
+    height: 100%;
+
+}
+
+.instruments-section{
+    margin-top: 4em;
+    width: 350;
+}
+
+.orders-section{
+    margin-top: 4em;
+    width: 100%;
+
+}
+
+.buy-sell-toggle{
+    display: flex;
+    justify-content: space-between;
+}
+
+.sell-toggle{
+    border-radius: 5px 0 0 5px;
+    padding: 2px 9px;
+background-color: #f23645;
+width: 50%;
+cursor: pointer;
+color: white;
+font-weight: bold;
+}
+
+.buy-toggle{
+    border-radius: 0 5px 5px 0;
+    padding: 2px 9px;
+text-align: right;
+background-color: #2862ff;
+width: 50%;
+cursor: pointer;
+color: white;
+font-weight: bold;
+}
+
+.products{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+.product-label{
+    margin-top: 10px;
+}
+
+.product-grey-label{
+    color:#ccc;
+    margin-top: 10px;
+}
+
+.varieties{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1em;
+
+}
+
+.variety{
+    cursor: pointer;
+    
+    text-align: center;
+    width: 25%;
+}
