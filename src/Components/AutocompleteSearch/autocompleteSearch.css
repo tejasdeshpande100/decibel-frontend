@@ -40,6 +40,12 @@
     height: 0;
 }
 
+.list-item:hover{
+    background: #eee;
+    font-weight: bold;
+    color: black
+}
+
 .list-item:hover  .item-details{
     display: none;
 }
@@ -48,4 +54,12 @@
     visibility: visible;
     width: auto;
     height: auto;
+}
+
+.small-buy-sell-button{
+    color: white;
+    background-color: #2862ff;
+    border-radius: 2px;
+    border: none;
+cursor: pointer;
 }

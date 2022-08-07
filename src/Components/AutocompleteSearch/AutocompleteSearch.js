@@ -3,10 +3,14 @@ import { useAutocomplete } from '@mui/base/AutocompleteUnstyled';
 import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
 import { instruments } from './instrumentsData';
-import ItemDetails from './ItemDetails/ItemDetails';
 import './autocompleteSearch.css';
 
-
+const segments={
+  INDICES:'INDICES',
+  NSE:'NSE',
+  BSE:'BSE',
+  NFO:'NFO',
+}
 const Label = styled('label')({
   display: 'block',
 });
@@ -94,7 +98,7 @@ export default function AutocompleteSearch(props) {
     <div className='item-exchange'>{option.exchange}</div>
 </div>
 <div className='action-buttons'>
-                    <button onClick={()=>buyOption(option)}>B</button>
+                    {option.segment!==segments.INDICES&&<button className='small-buy-sell-button' onClick={()=>buyOption(option)}>B</button>}
                 </div>
                 </div>
                 </div>

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 // import './index.css';
 import './draggableModal.css'
-import { Modal, Button, Image } from 'antd';
+import { Modal } from 'antd';
 import CloseIcon from '@mui/icons-material/Close';
 import Draggable from 'react-draggable';
 
@@ -44,7 +44,7 @@ export default function DraggableModal(props) {
               maskClosable={false}
               keyboard={false}
               wrapClassName="aaa"
-              width={500}
+              width={540}
               style={{
                 position: 'fixed',
                 // transform: 'translateX(-50%)',

@@ -72,3 +72,52 @@ font-weight: bold;
     text-align: center;
     width: 25%;
 }
+
+.inputs-container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+  
+}
+
+.input-container{
+    width: 30%;
+}
+
+.order-types-section{
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-types-price{
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-types-trigger{
+    display: flex;
+    justify-content: space-between;
+}
+
+.empty-div-for-layout{
+    width: 30%;
+}
+
+.buy-sell-button{
+    cursor: pointer;
+    width: 100%;
+    font-weight: 500;
+    background-color: #2862ff;
+    font-size: 30px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.hide-show-toggle{
+    text-align: right;
+    margin-top:1em;
+    margin-bottom:1em;
+    cursor: pointer;
+    color:#2862ff;
+}
