@@ -14,6 +14,8 @@ import UsdInrPage from './Pages/UsdInr/UsdInrPage'
 import PrivateRoute from "./PrivateRoute"
 import HeaderNav from './Components/HeaderNav/HeaderNav';
 import OrderPage from './Pages/OrderPage/OrderPage';
+import StrategyPage from './Pages/StrategyPage/StrategyPage';
+import PortfolioPage from './Pages/PortfolioPage/PortfolioPage';
 // import {useSelector} from 'react-redux'
 // import Axios from 'axios'
 
@@ -38,6 +40,8 @@ function App() {
       <Route path="/kite-callback" element={<PrivateRoute><KiteCallbackPage/></PrivateRoute>} />
       <Route path="/usd-inr" element={<PrivateRoute><UsdInrPage/></PrivateRoute>} />
       <Route path="/place-order" element={<PrivateRoute><OrderPage/></PrivateRoute>} />
+      <Route path="/create-strategy" element={<PrivateRoute><StrategyPage/></PrivateRoute>} />
+      <Route path="/create-portfolio" element={<PrivateRoute><PortfolioPage/></PrivateRoute>} />
         <Route path="/" element={<Homepage/>} />
         </Routes>
   </BrowserRouter>

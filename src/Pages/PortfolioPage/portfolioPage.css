@@ -1,0 +1,27 @@
+.container{
+padding-top: 5em;
+}
+
+
+.page-header{
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.create-button-container{
+    margin-top: 1em;
+}
+
+.input-container{
+    width: 100%;
+}
+
+.strategy-table-header{
+    margin-top: 2em;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.strategy-table{
+    margin-top: 1em;
+}
