@@ -37,6 +37,7 @@ function LoginPage(props) {
         console.log(response.data);
         localStorage.setItem('token',response.data.token)
         localStorage.setItem('email',response.data.user.email)
+        localStorage.setItem('user_id',response.data.user.user_id)
 
         navigate('/usd-inr')
        
@@ -84,6 +85,7 @@ setLoading(false);
         // dispatch(signIn())
         localStorage.setItem('token',response.data.token)
         localStorage.setItem('email',response.data.user.email)
+        localStorage.setItem('user_id',response.data.user.user_id)
 
         navigate('/usd-inr')
        

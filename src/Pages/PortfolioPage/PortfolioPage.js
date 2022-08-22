@@ -1,7 +1,8 @@
 import React,{useEffect,useState} from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -13,6 +14,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import { getStrategies } from '../../api/Strategy/strategy';
 import "./portfolioPage.css"
 
 
@@ -48,12 +50,49 @@ export default function StrategyPage() {
   const handleClose = () => setOpen(false);
   const [loading,setLoading] = useState(false)
 
+  const [strategiesList, setStrategiesList] = React.useState([]);
+  const [selectedStrategiesList, setSelectedStrategiesList] = React.useState([]);
+
+  useEffect(() => {
+   
+    const getData = async () => {
+      const response = await getStrategies();
+      if(response.status===200){
+        setStrategiesList(response.data)
+      }else{
+        console.log(response)
+      }
+      return response;
+    }
+
+    getData()
+    
+
+    }, [])
+
   const handleSubmit = (e) => {
     e.preventDefault()
     // code to submit form
     // setOpen(false);
     }
 
+
+    const addStrategy = (index) => {
+      setSelectedStrategiesList([...selectedStrategiesList, strategiesList[index]])
+      const newStrategiesList = [...strategiesList]
+      newStrategiesList.splice(index, 1)
+      console.log(newStrategiesList)
+      setStrategiesList(newStrategiesList)
+      
+    }
+
+    const removeStrategy = (index) => {
+      setStrategiesList([...strategiesList, selectedStrategiesList[index]])
+      const newSelectedStrategiesList = [...selectedStrategiesList]
+      newSelectedStrategiesList.splice(index, 1)
+      setSelectedStrategiesList(newSelectedStrategiesList)
+      
+    }
   const renderForm = ()=> (
     <div className="form">
       <form onSubmit={handleSubmit}>
@@ -63,6 +102,30 @@ export default function StrategyPage() {
           <input  type="text" placeholder="Name" name="name" required />
         
         </div>
+        <div className="input-container">
+          {/* <label>email </label> */}
+          <textarea name='portfolio_description' className='description-area'  type="text" placeholder="Description...." required />
+        
+        </div>
+        <h3>Choose Strategies</h3>
+        <div className='choose-strategies-section'>
+          <div className='available-strategies-section'>
+            {strategiesList.length ?strategiesList.map((strategy,index)=>(
+              <div key={strategy.strategy_id} className='strategy-item'>
+                <div className='strategy-item-name'>{strategy.strategy_name}</div>
+                <div onClick={()=>addStrategy(index)} className='add-strategy-button'>+ ADD</div>
+                </div>
+            )):null}
+          </div>
+          <div className='chosen-strategies-section'>
+          { selectedStrategiesList.length? selectedStrategiesList.map((strategy,index)=>(
+              <div key={strategy.strategy_id} className='strategy-item'>
+                <div className='strategy-item-name'>{strategy.strategy_name}</div>
+                <div  onClick={()=>removeStrategy(index)} className='add-strategy-button'> <DeleteOutlineOutlinedIcon/></div>
+                </div>
+            )):null}
+          </div>
+        </div>
         
         <div className="button-container">
          
@@ -71,7 +134,7 @@ export default function StrategyPage() {
             sx={{
               color: 'white',
             }}
-          />:'Login'}</Button>
+          />:'Create'}</Button>
          
         </div>
       </form>
@@ -100,12 +163,7 @@ variant="contained" color="primary" className="strategy-button">
       >
         <Box sx={style}>
         {renderForm()}
-          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography> */}
+          
         </Box>
       </Modal>
         </div>
@@ -137,7 +195,10 @@ variant="contained" color="primary" className="strategy-button">
               </TableCell>
               <TableCell align="center">Ipsum</TableCell>
               <TableCell align="center">Lorem</TableCell>
-              <TableCell align="center">Ipsum</TableCell>
+              <TableCell align="center">
+              <EditOutlinedIcon/>
+                  <DeleteOutlineOutlinedIcon/>
+              </TableCell>
               
             </TableRow>
          
@@ -149,3 +210,4 @@ variant="contained" color="primary" className="strategy-button">
     </div>
   )
 }
+

@@ -25,3 +25,10 @@ padding-top: 5em;
 .strategy-table{
     margin-top: 1em;
 }
+
+.description-area{
+    outline: none;
+    border: none;
+    background-color: #F0F0F0;
+    padding: 5px 10px;
+}

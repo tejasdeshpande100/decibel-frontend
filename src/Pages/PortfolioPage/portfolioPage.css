@@ -25,3 +25,28 @@ padding-top: 5em;
 .strategy-table{
     margin-top: 1em;
 }
+
+.choose-strategies-section{
+    display: flex;
+    margin-bottom: 2em;
+    justify-content: space-between;
+}
+
+.available-strategies-section{
+    width: 48%;
+}
+
+.chosen-strategies-section{
+    width: 48%;
+}
+
+.strategy-item{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.add-strategy-button{
+    color: blue;
+    cursor: pointer;
+}

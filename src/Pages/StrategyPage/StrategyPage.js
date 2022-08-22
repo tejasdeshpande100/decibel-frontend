@@ -1,7 +1,10 @@
 import React,{useEffect,useState} from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -13,6 +16,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import { createStrategy, getStrategies } from '../../api/Strategy/strategy';
 import "./strategyPage.css"
 
 
@@ -42,16 +46,72 @@ const style = {
     },
   }));
 
+  const modes = {
+    CREATE: 'CREATE',
+    EDIT: 'EDIT',
+  }
+
+  const strategy_modes=[{value:'MANUAL',label:'Manual Trade'},{value:'API',label:'API Trade'},{value: 'PLATFORM CODED',label:'Platform coded'},{value:'PM RENTED',label:'PM Rented'},{value:'BACKTESTING PLATFORM BASED',label:'Backtesting Platform Based'}]
+
 export default function StrategyPage() {
   const [open, setOpen] = React.useState(false);
+  const [strategiesList, setStrategiesList] = React.useState([]);
+  const [mode, setMode] = React.useState(modes.CREATE);
+  const [strategyDetails, setStrategyDetails] = React.useState({
+    strategy_name:'',
+    strategy_description:'',
+    strategy_id:'',
+    strategy_mode:strategy_modes[0].value,
+    user_id:localStorage.getItem('user_id')
+  });
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [loading,setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+
+  useEffect(() => {
+   
+    const getData = async () => {
+      const response = await getStrategies();
+      if(response.status===200){
+        setStrategiesList(response.data)
+      }else{
+        console.log(response)
+      }
+      return response;
+    }
+
+    getData()
+    
+
+    }, [])
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
+    console.log(strategyDetails)
+    let response=''
+    if (mode === modes.CREATE){
+      response = await createStrategy(strategyDetails)
+    }
+    
+    console.log(response)
+
+    if(response.status === 200){
+      setStrategiesList([...strategiesList,response.data])
+      handleClose()
+    }else{
+
+    }
+    setLoading(false)
     // code to submit form
     // setOpen(false);
+    }
+
+    const handleChangeInput = (e) => {
+     
+      setStrategyDetails({...strategyDetails,[e.target.name]:e.target.value})
     }
 
   const renderForm = ()=> (
@@ -60,9 +120,34 @@ export default function StrategyPage() {
       {/* {renderErrorMessage("email")} */}
         <div className="input-container">
           {/* <label>email </label> */}
-          <input  type="text" placeholder="Name" name="name" required />
+          <input onChange={handleChangeInput} name='strategy_name'  type="text" placeholder="Name" required />
         
         </div>
+        <div className="input-container">
+          {/* <label>email </label> */}
+          <textarea onChange={handleChangeInput} name='strategy_description' className='description-area'  type="text" placeholder="Description...." required />
+        
+        </div>
+      
+        <Select
+        style={{width:'100%',marginBottom:'1em'}}
+          labelId="simple-select-label"
+          id="simple-select"
+          size='small'
+          fuullWidth
+          value={strategyDetails.strategy_mode}
+          label="mode"
+          onChange={(event)=>setStrategyDetails({...strategyDetails,strategy_mode:event.target.value})}
+        >
+            {strategy_modes.map((strategy_modes)=>{
+                return (
+                    <MenuItem value={strategy_modes.value}>{strategy_modes.label}</MenuItem>
+                )
+            })}
+         
+        </Select>
+
+
         
         <div className="button-container">
          
@@ -71,9 +156,9 @@ export default function StrategyPage() {
             sx={{
               color: 'white',
             }}
-          />:'Login'}</Button>
-         
+          />:'Create'}</Button>   
         </div>
+        
       </form>
       <div style={{textAlign:'center', margin:'10px 0'}} >
     
@@ -116,19 +201,38 @@ variant="contained" color="primary" className="strategy-button">
             <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
+          
           <TableRow>
            
             
             <StyledTableCell align="center">Name</StyledTableCell>
-            <StyledTableCell align="center">Running Paper</StyledTableCell>
+            <StyledTableCell align="center">Description</StyledTableCell>
+            <StyledTableCell align="center">Mode</StyledTableCell>
             <StyledTableCell align="center">Running Live</StyledTableCell>
             <StyledTableCell align="center">Action</StyledTableCell>
            
           </TableRow>
         </TableHead>
         <TableBody>
-          
-            <TableRow
+        {strategiesList.map((strategy,index)=>{ 
+            return (
+              <TableRow
+              key={strategy.strategy_id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+                <StyledTableCell align="center">{strategy.strategy_name}</StyledTableCell>
+                <StyledTableCell align="center">{strategy.description}</StyledTableCell>
+                <StyledTableCell align="center">{strategy.strategy_mode}</StyledTableCell>
+                <StyledTableCell align="center">False</StyledTableCell>
+                <StyledTableCell align="center">
+                  <EditOutlinedIcon/>
+                  <DeleteOutlineOutlinedIcon/>
+                </StyledTableCell>
+              </TableRow>
+            )
+
+          })}
+            {/* <TableRow
               key={1}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
@@ -139,7 +243,7 @@ variant="contained" color="primary" className="strategy-button">
               <TableCell align="center">Lorem</TableCell>
               <TableCell align="center">Ipsum</TableCell>
               
-            </TableRow>
+            </TableRow> */}
          
         </TableBody>
       </Table>
