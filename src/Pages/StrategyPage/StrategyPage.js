@@ -17,6 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { createStrategy, getStrategies } from '../../api/Strategy/strategy';
+import SideNav from '../../Components/SideNav/Desktop/SideNav';
 import "./strategyPage.css"
 
 
@@ -167,8 +168,9 @@ export default function StrategyPage() {
   );
     
   return (
-    <div className="container">
-        
+    <Box sx={{ display: 'flex' }}>
+      <SideNav />
+        <div className='strategy-page-container'>
         <div className='page-header'>Strategies</div>
         <div className='create-button-container'>
 <Button 
@@ -251,5 +253,6 @@ variant="contained" color="primary" className="strategy-button">
     </div>
 
     </div>
+    </Box>
   )
 }

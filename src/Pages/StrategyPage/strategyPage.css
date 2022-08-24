@@ -1,7 +1,12 @@
-.container{
-padding-top: 5em;
-}
+.strategy-page-container{
+    padding: 5em;
+    width: 100%;
+    }
+    
 
+.strategy-page-wrapper{
+    width: 100%;
+}
 
 .page-header{
     font-weight: 500;

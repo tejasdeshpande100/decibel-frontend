@@ -1,0 +1,27 @@
+.pm-dashbiard-page-container{
+    padding: 5em;
+    width: 100%;
+}
+
+.live-icon-wrapper{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 2em;
+}
+
+.strategy-pipes-container{
+    margin-top: 2em;
+    /* background-color: green; */
+    border: solid 1px #e6e6e6;
+    padding: 0 20px;
+    border-radius: 5px;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.buttons-container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2em;
+}

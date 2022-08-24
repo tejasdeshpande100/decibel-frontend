@@ -13,6 +13,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import SideNav from '../../Components/SideNav/Desktop/SideNav';
 import { styled } from '@mui/material/styles';
 import { getStrategies } from '../../api/Strategy/strategy';
 import "./portfolioPage.css"
@@ -145,7 +146,9 @@ export default function StrategyPage() {
   );
     
   return (
-    <div className="container">
+    <Box  sx={{ display: 'flex' }}>
+      <SideNav/>
+    <div className="portfolio-page-container">
         
         <div className='page-header'>Portfolios</div>
         <div className='create-button-container'>
@@ -175,8 +178,6 @@ variant="contained" color="primary" className="strategy-button">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-           
-            
             <StyledTableCell align="center">Name</StyledTableCell>
             <StyledTableCell align="center">Running Paper</StyledTableCell>
             <StyledTableCell align="center">Running Live</StyledTableCell>
@@ -208,6 +209,7 @@ variant="contained" color="primary" className="strategy-button">
     </div>
 
     </div>
+    </Box>
   )
 }
 

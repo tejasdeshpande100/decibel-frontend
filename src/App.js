@@ -16,6 +16,7 @@ import HeaderNav from './Components/HeaderNav/HeaderNav';
 import OrderPage from './Pages/OrderPage/OrderPage';
 import StrategyPage from './Pages/StrategyPage/StrategyPage';
 import PortfolioPage from './Pages/PortfolioPage/PortfolioPage';
+import PMDashboard from './Pages/PMDashboard/PMDashboard';
 // import {useSelector} from 'react-redux'
 // import Axios from 'axios'
 
@@ -42,6 +43,7 @@ function App() {
       <Route path="/place-order" element={<PrivateRoute><OrderPage/></PrivateRoute>} />
       <Route path="/create-strategy" element={<PrivateRoute><StrategyPage/></PrivateRoute>} />
       <Route path="/create-portfolio" element={<PrivateRoute><PortfolioPage/></PrivateRoute>} />
+      <Route path="/pm-dashboard" element={<PrivateRoute><PMDashboard/></PrivateRoute>} />
         <Route path="/" element={<Homepage/>} />
         </Routes>
   </BrowserRouter>
