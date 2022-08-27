@@ -1,13 +1,13 @@
 import Axios from 'axios'
 
-const createStrategyUrl = process.env.REACT_APP_BACKEND_URL+"/strategies"
+const crudStrategyUrl = process.env.REACT_APP_BACKEND_URL+"/strategies"
 const getStrategiesUrl = process.env.REACT_APP_BACKEND_URL+"/get-strategies"
 
-export const createStrategy = async (strategyDetails)=>{
+export const createOrUpdateStrategy = async (strategyDetails)=>{
     
     try{
   
-        const response = await Axios.post(createStrategyUrl, strategyDetails)
+        const response = await Axios.post(crudStrategyUrl, strategyDetails)
         
        
         return response
@@ -17,6 +17,22 @@ export const createStrategy = async (strategyDetails)=>{
             return error.response
     }  
    
+}
+
+export const deleteStrategy = async (strategy)=>{
+    try{
+  
+        const response = await Axios.delete(crudStrategyUrl, {
+            data: strategy
+          })
+        
+       
+        return response
+            
+    }catch(error){
+        
+            return error.response
+    }  
 }
 
 export const getStrategies = async ()=>{

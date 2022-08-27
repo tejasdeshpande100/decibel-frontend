@@ -16,23 +16,23 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import { createStrategy, getStrategies } from '../../api/Strategy/strategy';
+import { createOrUpdateStrategy, getStrategies, deleteStrategy } from '../../api/Strategy/strategy';
 import SideNav from '../../Components/SideNav/Desktop/SideNav';
 import "./strategyPage.css"
 
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    borderRadius: '5px',
-    // border: '2px solid #000',
-    // boxShadow: 24,
-    p: 4,
-  };
+// const style = {
+//     position: 'absolute',
+//     top: '50%',
+//     left: '50%',
+//     transform: 'translate(-50%, -50%)',
+//     width: 400,
+//     bgcolor: 'background.paper',
+//     borderRadius: '5px',
+//     // border: '2px solid #000',
+//     // boxShadow: 24,
+//     p: 4,
+//   };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -50,24 +50,25 @@ const style = {
   const modes = {
     CREATE: 'CREATE',
     EDIT: 'EDIT',
+    VIEW: 'VIEW',
   }
 
   const strategy_modes=[{value:'MANUAL',label:'Manual Trade'},{value:'API',label:'API Trade'},{value: 'PLATFORM CODED',label:'Platform coded'},{value:'PM RENTED',label:'PM Rented'},{value:'BACKTESTING PLATFORM BASED',label:'Backtesting Platform Based'}]
 
 export default function StrategyPage() {
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
   const [strategiesList, setStrategiesList] = React.useState([]);
-  const [mode, setMode] = React.useState(modes.CREATE);
+  const [mode, setMode] = React.useState(modes.VIEW);
   const [strategyDetails, setStrategyDetails] = React.useState({
     strategy_name:'',
-    strategy_description:'',
+    description:'',
     strategy_id:'',
     strategy_mode:strategy_modes[0].value,
     user_id:localStorage.getItem('user_id')
   });
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
   const [loading,setLoading] = useState(false)
 
 
@@ -88,26 +89,48 @@ export default function StrategyPage() {
 
     }, [])
 
+    const handleEdit = (strategy) => {
+      setStrategyDetails(strategy)
+      setMode(modes.EDIT)
+    }
+
+    const handleDelete = async (strategy) => {
+      setLoading(true)
+      const response = await deleteStrategy(strategy)
+      if(response.status===200){
+        const newStrategiesList = strategiesList.filter((item)=>item.strategy_id!==strategy.strategy_id)
+        setStrategiesList(newStrategiesList)
+      }else{
+        console.log(response)
+      }
+      setLoading(false)
+    }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     console.log(strategyDetails)
     let response=''
-    if (mode === modes.CREATE){
-      response = await createStrategy(strategyDetails)
+    if (mode === modes.CREATE || mode === modes.EDIT) {
+      response = await createOrUpdateStrategy(strategyDetails)
     }
     
     console.log(response)
 
     if(response.status === 200){
-      setStrategiesList([...strategiesList,response.data])
-      handleClose()
+      if(mode === modes.CREATE){
+        setStrategiesList([response.data,...strategiesList])
+      }else{
+        setStrategiesList(strategiesList.map((strategy)=> strategy.strategy_id === response.data.strategy_id ? response.data : strategy))
+      }
+      
+     
+      setMode(modes.VIEW)
     }else{
 
     }
     setLoading(false)
-    // code to submit form
-    // setOpen(false);
+   
     }
 
     const handleChangeInput = (e) => {
@@ -116,17 +139,18 @@ export default function StrategyPage() {
     }
 
   const renderForm = ()=> (
+    <div className='strategy-page-container'>
     <div className="form">
       <form onSubmit={handleSubmit}>
       {/* {renderErrorMessage("email")} */}
         <div className="input-container">
           {/* <label>email </label> */}
-          <input onChange={handleChangeInput} name='strategy_name'  type="text" placeholder="Name" required />
+          <input onChange={handleChangeInput} value={strategyDetails.strategy_name} name='strategy_name'  type="text" placeholder="Name" required />
         
         </div>
         <div className="input-container">
           {/* <label>email </label> */}
-          <textarea onChange={handleChangeInput} name='strategy_description' className='description-area'  type="text" placeholder="Description...." required />
+          <textarea onChange={handleChangeInput} value={strategyDetails.description} name='description' className='description-area'  type="text" placeholder="Description...." required />
         
         </div>
       
@@ -151,13 +175,17 @@ export default function StrategyPage() {
 
         
         <div className="button-container">
-         
+          <div className='strategy-button-wrapper'>
+        <Button onClick={()=>setMode(modes.VIEW)} fullWidth type="submit" style={{"text-transform": "none"}} variant="outlined">Cancel</Button>
+        </div>
+        <div className='strategy-button-wrapper'>
           <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">{loading?<CircularProgress
             size={25}
             sx={{
               color: 'white',
             }}
           />:'Create'}</Button>   
+             </div>
         </div>
         
       </form>
@@ -165,21 +193,21 @@ export default function StrategyPage() {
     
       </div>
     </div>
+    </div>
   );
-    
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <SideNav />
-        <div className='strategy-page-container'>
+
+  const displayStrategies = () => (
+    <div className='strategy-page-container'>
         <div className='page-header'>Strategies</div>
         <div className='create-button-container'>
 <Button 
-onClick={handleOpen}
+// onClick={handleOpen}
+onClick={()=>setMode(modes.CREATE)}
 variant="contained" color="primary" className="strategy-button">
 
    <AddIcon/> Create
 </Button>
-<Modal
+{/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -187,14 +215,9 @@ variant="contained" color="primary" className="strategy-button">
       >
         <Box sx={style}>
         {renderForm()}
-          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography> */}
+         
         </Box>
-      </Modal>
+      </Modal> */}
         </div>
         <div className='strategy-table-header'>
             My Strategies
@@ -227,25 +250,13 @@ variant="contained" color="primary" className="strategy-button">
                 <StyledTableCell align="center">{strategy.strategy_mode}</StyledTableCell>
                 <StyledTableCell align="center">False</StyledTableCell>
                 <StyledTableCell align="center">
-                  <EditOutlinedIcon/>
-                  <DeleteOutlineOutlinedIcon/>
+                  <EditOutlinedIcon onClick={()=>handleEdit(strategy)} style={{cursor:'pointer'}}/>
+                  <DeleteOutlineOutlinedIcon onClick={()=>handleDelete(strategy)} style={{cursor:'pointer'}}/>
                 </StyledTableCell>
               </TableRow>
             )
 
           })}
-            {/* <TableRow
-              key={1}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align="center">
-               Lorem
-              </TableCell>
-              <TableCell align="center">Ipsum</TableCell>
-              <TableCell align="center">Lorem</TableCell>
-              <TableCell align="center">Ipsum</TableCell>
-              
-            </TableRow> */}
          
         </TableBody>
       </Table>
@@ -253,6 +264,12 @@ variant="contained" color="primary" className="strategy-button">
     </div>
 
     </div>
+  )
+    
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <SideNav />
+        {mode === modes.VIEW ?displayStrategies():renderForm()}
     </Box>
   )
 }

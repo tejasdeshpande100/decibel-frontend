@@ -41,8 +41,8 @@ function App() {
       <Route path="/kite-callback" element={<PrivateRoute><KiteCallbackPage/></PrivateRoute>} />
       <Route path="/usd-inr" element={<PrivateRoute><UsdInrPage/></PrivateRoute>} />
       <Route path="/place-order" element={<PrivateRoute><OrderPage/></PrivateRoute>} />
-      <Route path="/create-strategy" element={<PrivateRoute><StrategyPage/></PrivateRoute>} />
-      <Route path="/create-portfolio" element={<PrivateRoute><PortfolioPage/></PrivateRoute>} />
+      <Route path="/strategies" element={<PrivateRoute><StrategyPage/></PrivateRoute>} />
+      <Route path="/portfolios" element={<PrivateRoute><PortfolioPage/></PrivateRoute>} />
       <Route path="/pm-dashboard" element={<PrivateRoute><PMDashboard/></PrivateRoute>} />
         <Route path="/" element={<Homepage/>} />
         </Routes>

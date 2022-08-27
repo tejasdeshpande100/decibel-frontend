@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 const drawerWidth = 240;
 
 export default function SideNav() {
+  console.log(window.location.pathname);
   return (
     <>
       <Drawer
@@ -21,7 +22,8 @@ export default function SideNav() {
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            border: 'none'
           }
         }}
         variant="permanent"
@@ -30,9 +32,11 @@ export default function SideNav() {
         <Toolbar />
         <Divider />
         <List>
-          {[{label:"Trading Pit",link:'/place-order'}, {label:"Subscribers",link:'/'}, {label:"Portfolios",link:'/create-portfolio'}, {label:"Strategies",link:'/create-strategy'},  {label:"Dashboard",link:'/pm-dashboard'}].map((item, index) => (
+          {[{label:"Trading Pit",link:'/place-order'}, {label:"Subscribers",link:'/'}, {label:"Portfolios",link:'/portfolios'}, {label:"Strategies",link:'/strategies'},  {label:"Dashboard",link:'/pm-dashboard'}].map((item, index) => (
             <Link style={{color:'#515151'}} to={item.link}>
-            <ListItem key={item.label} disablePadding>
+            <ListItem
+            style={window.location.pathname === item.link ? {backgroundColor:'#f5f5f5'} : {}}
+            key={item.label} disablePadding>
               
               <ListItemButton>
                 <ListItemIcon>
