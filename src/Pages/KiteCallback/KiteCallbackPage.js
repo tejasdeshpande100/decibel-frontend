@@ -8,7 +8,6 @@ export default function KiteCallbackPage() {
 
     const status = searchParams.get('status');
     const request_token = searchParams.get('request_token');
-    console.log(status,request_token)
 
     if(status === 'success' && request_token && !BrokerLogin){
         console.log(status,request_token)

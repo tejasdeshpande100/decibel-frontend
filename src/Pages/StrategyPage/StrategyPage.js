@@ -184,7 +184,7 @@ export default function StrategyPage() {
             sx={{
               color: 'white',
             }}
-          />:'Create'}</Button>   
+          />:modes.CREATE === mode?'Create':'Save'}</Button>   
              </div>
         </div>
         

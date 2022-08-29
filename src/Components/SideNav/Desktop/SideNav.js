@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const drawerWidth = 240;
 
 export default function SideNav() {
-  console.log(window.location.pathname);
+
   return (
     <>
       <Drawer
