@@ -33,10 +33,10 @@ export default function SideNav() {
         <Divider />
         <List>
           {[{label:"Trading Pit",link:'/place-order'}, {label:"Subscribers",link:'/'}, {label:"Portfolios",link:'/portfolios'}, {label:"Strategies",link:'/strategies'},  {label:"Dashboard",link:'/pm-dashboard'}].map((item, index) => (
-            <Link style={{color:'#515151'}} to={item.link}>
+            <Link key={item.label} style={{color:'#515151'}} to={item.link}>
             <ListItem
             style={window.location.pathname === item.link ? {backgroundColor:'#f5f5f5'} : {}}
-            key={item.label} disablePadding>
+             disablePadding>
               
               <ListItemButton>
                 <ListItemIcon>

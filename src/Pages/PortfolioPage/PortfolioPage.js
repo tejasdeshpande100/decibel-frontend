@@ -16,7 +16,7 @@ import Paper from '@mui/material/Paper';
 import SideNav from '../../Components/SideNav/Desktop/SideNav';
 import { styled } from '@mui/material/styles';
 import { getStrategies } from '../../api/Strategy/strategy';
-import {getPortfolios,createOrUpdatePortfolio} from '../../api/Portfolio/portfolio'
+import {getPortfolios,createOrUpdatePortfolio, deletePortfolio} from '../../api/Portfolio/portfolio'
 import "./portfolioPage.css"
 
 
@@ -60,6 +60,7 @@ export default function PortfolioPage() {
   // const handleClose = () => setOpen(false);
   const [loading,setLoading] = useState(false)
   const [mode, setMode] = React.useState(modes.VIEW);
+  const [allStrategiesList, setAllStrategiesList] = React.useState([]);
   const [strategiesList, setStrategiesList] = React.useState([]);
   const [selectedStrategiesList, setSelectedStrategiesList] = React.useState([]);
   const [portfoliosList, setPortfoliosList] = React.useState([]);
@@ -79,6 +80,7 @@ export default function PortfolioPage() {
       
       if(strategy_response.status===200){
         setStrategiesList(strategy_response.data)
+        setAllStrategiesList(strategy_response.data)
       }else{
         console.log(strategy_response)
       }
@@ -110,6 +112,14 @@ export default function PortfolioPage() {
     
     if(response.status===200){
       console.log(response)
+      setPortfoliosList([...portfoliosList,response.data])
+
+      if(mode === modes.CREATE){
+        setPortfoliosList([response.data,...portfoliosList])
+      }else{
+        setPortfoliosList(portfoliosList.map((portfolio)=> portfolio.portfolio_id === response.data.portfolio_id ? response.data : portfolio))
+      }
+
       setMode(modes.VIEW)
     }else{
       console.log(response)
@@ -136,6 +146,46 @@ export default function PortfolioPage() {
       setSelectedStrategiesList(newSelectedStrategiesList)
       
     }
+
+
+    const handleDelete = async (portfolio) => {
+
+      setLoading(true)
+      const response = await deletePortfolio(portfolio)
+      if(response.status===200){
+        const newPortfoliosList = portfoliosList.filter((item)=>item.portfolio_id!==portfolio.portfolio_id)
+        setPortfoliosList(newPortfoliosList)
+      }else{
+        console.log(response)
+      }
+      setLoading(false)
+    }
+
+   
+
+
+    const handleEdit = (index) => {
+      setPortfolioDetails({...portfolioDetails,...portfoliosList[index]})
+      let selected = []
+      let others = []
+      selected = portfoliosList[index].strategy_list.map(id=>{
+        return strategiesList.find(strategy=>strategy.strategy_id===id)
+      })
+      others = allStrategiesList.filter((strategy)=>{
+        console.log(portfoliosList[index].strategy_list.includes(strategy.strategy_id))
+        return !portfoliosList[index].strategy_list.includes(strategy.strategy_id)
+          
+        }
+       
+      )
+      console.log(others)
+      setSelectedStrategiesList(selected)
+      setStrategiesList(others)
+      setMode(modes.EDIT)
+
+    }
+
+
   const renderForm = ()=> (
     <div className="portfolio-page-container">
     <div className="form">
@@ -226,7 +276,7 @@ variant="contained" color="primary" className="strategy-button">
     <TableHead>
       <TableRow>
         <StyledTableCell align="center">Name</StyledTableCell>
-        <StyledTableCell align="center">Running Paper</StyledTableCell>
+        <StyledTableCell align="center">Description</StyledTableCell>
         <StyledTableCell align="center">Running Live</StyledTableCell>
         <StyledTableCell align="center">Action</StyledTableCell>
        
@@ -234,21 +284,24 @@ variant="contained" color="primary" className="strategy-button">
     </TableHead>
     <TableBody>
       
-        <TableRow
-          key={1}
+        {portfoliosList.length?portfoliosList.map((portfolio,index)=>(
+          <TableRow
+          key={portfolio.portfolio_id}
           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         >
           <TableCell align="center">
-           Lorem
+           {portfolio.portfolio_name}
           </TableCell>
-          <TableCell align="center">Ipsum</TableCell>
-          <TableCell align="center">Lorem</TableCell>
+          <TableCell align="center">{portfolio.description}</TableCell>
+          <TableCell align="center">False</TableCell>
           <TableCell align="center">
-          <EditOutlinedIcon/>
-              <DeleteOutlineOutlinedIcon/>
+          <EditOutlinedIcon onClick={()=>handleEdit(index)} style={{cursor:'pointer'}}/>
+              <DeleteOutlineOutlinedIcon onClick={()=>handleDelete(portfolio)}  style={{cursor:'pointer'}}/>
           </TableCell>
           
         </TableRow>
+
+        )):null}
      
     </TableBody>
   </Table>

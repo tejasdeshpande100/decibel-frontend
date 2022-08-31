@@ -112,8 +112,8 @@ export default function OrderPage() {
 
  
       const [modalVisible, setModalVisible] = useState(visiblity);
-    
-
+      const [watchlist, setWatchlist] = useState({1:[]});
+      const [page,setPage] = useState(1)
       const initialOrderDetails = {
             exchange: '',
             transaction_type:transaction_types.BUY,
@@ -139,10 +139,19 @@ export default function OrderPage() {
     
       const showModal = (option) => {
         console.log(option)
-        setOrderDetails({...orderDetails,trading_symbol:option.tradingsymbol, exchange:option.exchange})
+        setOrderDetails({...orderDetails,trading_symbol:option.tradingsymbol, exchange:option.exchange,transaction_type:option.transaction_type})
         setModalVisible({...modalVisible,
           visible: true
       });
+      };
+
+      const addToWatchlist = (option) => {
+        console.log(option)
+        const instrument_tokens_on_page = watchlist[page].map((item)=>item.instrument_token)
+        if(!instrument_tokens_on_page.includes(option.instrument_token)){
+          setWatchlist({...watchlist,[page]:[...watchlist[page],option]})
+        }
+       
       };
     
       const handleOk = e => {
@@ -487,15 +496,23 @@ className='hide-show-toggle'>
     )
  }
 
+ const renderWatchList = ()=>{
+  console.log('watchlist',watchlist[page])
+  return (
+    <div>{watchlist[page].map((instrument)=>{
+      console.log(instrument)
+      return (
+        <div key={instrument.trading_symbol}>{instrument.tradingsymbol}</div>
+      )
+  })}</div>
+  )
+  
+ }
   return (
     <div className='order-page-container'>
-        <div className='instruments-section'>
-            <AutocompleteSearch
-            showModal={showModal}
-            />
        
-        </div>
-        <div className='orders-section'> <div>
+        <div className='orders-section'> 
+        <div>
             {/* <button onClick={showModal}>open order modal</button> */}
             <DraggableModal
            showModal={showModal}
@@ -510,6 +527,17 @@ className='hide-show-toggle'>
             </div>
          
             </div>
+            <div className='instruments-section'>
+            <AutocompleteSearch
+            showModal={showModal}
+            addToWatchlist={addToWatchlist}
+            />
+            <div>
+             
+              {renderWatchList()}
+            </div>
+       
+        </div>
        </div>
   )
 }

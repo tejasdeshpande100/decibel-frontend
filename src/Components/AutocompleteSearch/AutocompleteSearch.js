@@ -5,6 +5,11 @@ import { autocompleteClasses } from '@mui/material/Autocomplete';
 import { instruments } from './instrumentsData';
 import './autocompleteSearch.css';
 
+const transaction_types = {
+  BUY: 'BUY',
+  SELL: 'SELL'
+}
+
 const segments={
   INDICES:'INDICES',
   NSE:'NSE',
@@ -50,7 +55,7 @@ const Listbox = styled('ul')(({ theme }) => ({
 
 export default function AutocompleteSearch(props) {
 
-   const { showModal} = props
+   const { showModal,addToWatchlist} = props
 
   const {
     getRootProps,
@@ -72,9 +77,13 @@ export default function AutocompleteSearch(props) {
       
   });
 
-  const buyOption=(option) => {
+  const openOption=(option, transaction_type) => {
+    option.transaction_type = transaction_type
     showModal(option)
   }
+
+
+
 
   return (
     <div className='autocomplete-container'>
@@ -98,7 +107,9 @@ export default function AutocompleteSearch(props) {
     <div className='item-exchange'>{option.exchange}</div>
 </div>
 <div className='action-buttons'>
-                    {option.segment!==segments.INDICES&&<button className='small-buy-sell-button' onClick={()=>buyOption(option)}>B</button>}
+                    {option.segment!==segments.INDICES&&<button className='small-action-button' onClick={()=>openOption(option,transaction_types.BUY)}>B</button>}
+                    {option.segment!==segments.INDICES&&<button className='small-action-button sell-button-color' onClick={()=>openOption(option, transaction_types.SELL)}>S</button>}
+                    {<button className='small-action-button add-to-watchlist-button' onClick={()=>addToWatchlist(option)}>+</button>}
                 </div>
                 </div>
                 </div>

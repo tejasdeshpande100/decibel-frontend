@@ -202,7 +202,15 @@ export default function StrategyPage() {
         <div className='create-button-container'>
 <Button 
 // onClick={handleOpen}
-onClick={()=>setMode(modes.CREATE)}
+onClick={()=>{
+  setMode(modes.CREATE)
+  setStrategyDetails({...strategyDetails,
+    strategy_name:'',
+    description:'',
+    strategy_id:'',
+    strategy_mode:strategy_modes[0].value
+  })
+}}
 variant="contained" color="primary" className="strategy-button">
 
    <AddIcon/> Create

@@ -56,10 +56,19 @@
     height: auto;
 }
 
-.small-buy-sell-button{
+.small-action-button{
     color: white;
     background-color: #2862ff;
     border-radius: 2px;
     border: none;
-cursor: pointer;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.sell-button-color{
+    background:red;
+}
+
+.add-to-watchlist-button{
+    background: green;
 }
