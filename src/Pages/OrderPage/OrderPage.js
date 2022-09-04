@@ -1,5 +1,8 @@
 import React, {useState} from 'react'
 import './orderPage.css'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import SideNav from '../../Components/SideNav/Desktop/SideNav';
 import DraggableModal from '../../Components/DraggableModal/DraggableModal'
 import Radio from '@mui/material/Radio';
 import TextField from '@mui/material/TextField';
@@ -8,10 +11,17 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-
 const NSE = 'NSE'
 const BSE = 'BSE'
 const NFO = 'NFO'
+
+const segments={
+  INDICES:'INDICES',
+  NSE:'NSE',
+  BSE:'BSE',
+  NFO:'NFO',
+}
+
 const transaction_types = {
     BUY: 'BUY',
     SELL: 'SELL'
@@ -145,6 +155,11 @@ export default function OrderPage() {
       });
       };
 
+      const openOption=(option, transaction_type) => {
+        option.transaction_type = transaction_type
+        showModal(option)
+      }
+
       const addToWatchlist = (option) => {
         console.log(option)
         const instrument_tokens_on_page = watchlist[page].map((item)=>item.instrument_token)
@@ -177,6 +192,8 @@ export default function OrderPage() {
         const handleChangeTtl = (event) => {
             setOrderDetails({...orderDetails,validity_ttl:event.target.value});
           };
+
+          
 
       const buySellTicketTitle = ()=>{
 
@@ -417,9 +434,7 @@ className='hide-show-toggle'>
      </>}
     </div>
         <div style={showOptions?{display:'none'}:{'border-top': 'solid #eee'}} className='inputs-container'>
-        <div className='input-container'>
-   Validity
-        </div>
+        
         <div className='input-container'>
         <Select
           labelId="demo-simple-select-label"
@@ -457,7 +472,14 @@ className='hide-show-toggle'>
         />
         </div> 
         </div>
-        <div style={showOptions?{display:'none'}:{}}>
+
+        {/* <div >
+   Validity
+        </div> */}
+
+
+        <div style={showOptions?{display:'none'}:{display:'flex'}}>
+        Validity:
             {validity_keys.map((validity)=>{
                 const label = validity_types[validity].label
                 const value = validity_types[validity].value
@@ -499,16 +521,39 @@ className='hide-show-toggle'>
  const renderWatchList = ()=>{
   console.log('watchlist',watchlist[page])
   return (
-    <div>{watchlist[page].map((instrument)=>{
-      console.log(instrument)
+    <div>{watchlist[page].map((option)=>{
+     
       return (
-        <div key={instrument.trading_symbol}>{instrument.tradingsymbol}</div>
+       
+       
+        <div className='list-item'>
+            <div className='item-symbol'> {option.tradingsymbol}{'  '}
+            <span style={{fontSize:'8px', color:'grey'}}>{option.exchange}</span>
+            </div>
+            
+       <div>
+        
+       <div 
+className='item-details'>
+  
+<div className='item-name'>{option.name}</div>
+
+</div>
+<div className='action-buttons'>
+            {option.segment!==segments.INDICES&&<button className='small-action-button' onClick={()=>openOption(option,transaction_types.BUY)}>B</button>}
+            {option.segment!==segments.INDICES&&<button className='small-action-button sell-button-color' onClick={()=>openOption(option, transaction_types.SELL)}>S</button>}
+        </div>
+        </div>
+        </div>
+   
       )
   })}</div>
   )
   
  }
   return (
+    <div  style={{ display: 'flex', height:'100%' }}>
+       <SideNav/>
     <div className='order-page-container'>
        
         <div className='orders-section'> 
@@ -532,12 +577,17 @@ className='hide-show-toggle'>
             showModal={showModal}
             addToWatchlist={addToWatchlist}
             />
-            <div>
+            <div  className='watchlist-container'>
              
               {renderWatchList()}
             </div>
+            <div className='strategies-list-container'>
+             <div>Strategy: </div>
+             <div>Strategies List will be rendered here</div>
+            </div>
        
         </div>
+       </div>
        </div>
   )
 }

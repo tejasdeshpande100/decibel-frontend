@@ -114,9 +114,6 @@ export default function AutocompleteSearch(props) {
                 </div>
                 </div>
 
-               
-               
-            
             </li>
           ))}
         </Listbox>

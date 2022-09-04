@@ -8,6 +8,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LaunchIcon from '@mui/icons-material/Launch';
+import Logo from '../../../images/Logo 1.png'
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -29,7 +30,13 @@ export default function SideNav() {
         variant="permanent"
         anchor="left"
       >
-        <Toolbar />
+        <Toolbar >
+          <div style={{textAlign:'center'}} className="dice-sidenav-logo">
+       <img style={{height:'100px', cursor:'pointer'}} alt={'Templogo'} src={Logo}/>
+        </div> 
+        </Toolbar >
+        
+
         <Divider />
         <List>
           {[{label:"Trading Pit",link:'/place-order'}, {label:"Subscribers",link:'/'}, {label:"Portfolios",link:'/portfolios'}, {label:"Strategies",link:'/strategies'},  {label:"Dashboard",link:'/pm-dashboard'}].map((item, index) => (

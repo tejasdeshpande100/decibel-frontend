@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import './strategyPipe.css'
 
 export default function StrategyPipe(props) {
-  const {strategy} = props;
+  const {strategy,openModal} = props;
   return (
     <div className='strategy-pipe'>
       <div>
@@ -44,7 +44,9 @@ export default function StrategyPipe(props) {
           MTM: 1000
         </div>
         <div>
-<Button style={{backgroundColor:'#F0F8FF', textTransform:'none'}}>View</Button>
+<Button
+onClick={()=>openModal()}
+style={{backgroundColor:'#F0F8FF', textTransform:'none'}}>View</Button>
         </div>
       </div>
       

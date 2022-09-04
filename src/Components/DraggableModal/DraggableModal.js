@@ -11,8 +11,6 @@ export default function DraggableModal(props) {
         bounds: { left: 0, top: 0, bottom: 0, right: 0 },
       };
 
-
-
       const [modalBounds, setModalBounds] = useState(initialBounds);
 
     
@@ -44,7 +42,7 @@ export default function DraggableModal(props) {
               maskClosable={false}
               keyboard={false}
               wrapClassName="aaa"
-              width={540}
+              width={450}
               style={{
                 position: 'fixed',
                 // transform: 'translateX(-50%)',

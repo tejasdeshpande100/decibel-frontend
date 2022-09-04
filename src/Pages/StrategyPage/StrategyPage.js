@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react'
+import {useLocation} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -57,8 +58,11 @@ import "./strategyPage.css"
 
 export default function StrategyPage() {
   // const [open, setOpen] = React.useState(false);
+ 
+  const location = useLocation();
+  console.log(location)
   const [strategiesList, setStrategiesList] = React.useState([]);
-  const [mode, setMode] = React.useState(modes.VIEW);
+  const [mode, setMode] = React.useState(location.state?.mode || modes.VIEW);
   const [strategyDetails, setStrategyDetails] = React.useState({
     strategy_name:'',
     description:'',

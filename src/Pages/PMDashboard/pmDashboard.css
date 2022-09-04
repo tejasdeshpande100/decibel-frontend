@@ -25,3 +25,14 @@
     justify-content: space-between;
     margin-top: 2em;
 }
+
+.no-strategies-message-wrapper{
+    display: flex;
+    height: 100%;
+    text-align: center;
+}
+
+
+.no-strategies-message-div{
+    margin:auto;
+}

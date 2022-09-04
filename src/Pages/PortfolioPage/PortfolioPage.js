@@ -117,6 +117,7 @@ export default function PortfolioPage() {
       if(mode === modes.CREATE){
         setPortfoliosList([response.data,...portfoliosList])
       }else{
+        
         setPortfoliosList(portfoliosList.map((portfolio)=> portfolio.portfolio_id === response.data.portfolio_id ? response.data : portfolio))
       }
 
@@ -147,6 +148,7 @@ export default function PortfolioPage() {
       
     }
 
+      console.log(strategiesList)
 
     const handleDelete = async (portfolio) => {
 
@@ -168,16 +170,17 @@ export default function PortfolioPage() {
       setPortfolioDetails({...portfolioDetails,...portfoliosList[index]})
       let selected = []
       let others = []
+      console.log('portfoliosList[index]',portfoliosList[index],strategiesList)
       selected = portfoliosList[index].strategy_list.map(id=>{
-        return strategiesList.find(strategy=>strategy.strategy_id===id)
+        return allStrategiesList.find(strategy=>strategy.strategy_id===id)
       })
       others = allStrategiesList.filter((strategy)=>{
-        console.log(portfoliosList[index].strategy_list.includes(strategy.strategy_id))
+        
         return !portfoliosList[index].strategy_list.includes(strategy.strategy_id)
           
         }
-       
       )
+      
       console.log(others)
       setSelectedStrategiesList(selected)
       setStrategiesList(others)
@@ -250,7 +253,13 @@ export default function PortfolioPage() {
     <div className='page-header'>Portfolios</div>
     <div className='create-button-container'>
 <Button 
-onClick={()=>setMode(modes.CREATE)}
+onClick={()=>{
+  setPortfolioDetails({})
+  setSelectedStrategiesList([])
+  setMode(modes.CREATE)
+
+  
+}}
 variant="contained" color="primary" className="strategy-button">
 
 <AddIcon/> Create
