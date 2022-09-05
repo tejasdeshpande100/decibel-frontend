@@ -107,6 +107,7 @@ export default function PortfolioPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
     console.log(portfolioDetails, selectedStrategiesList)
     const response = await createOrUpdatePortfolio({...portfolioDetails,strategy_list:selectedStrategiesList.map(strategy=>strategy.strategy_id)})
     
@@ -125,7 +126,7 @@ export default function PortfolioPage() {
     }else{
       console.log(response)
     }
-    
+    setLoading(false)
     // code to submit form
     // setOpen(false);
     }
@@ -191,17 +192,17 @@ export default function PortfolioPage() {
 
   const renderForm = ()=> (
     <div className="portfolio-page-container">
-    <div className="form">
+    <div className="create-portfolio-form">
       <form onSubmit={handleSubmit}>
       {/* {renderErrorMessage("email")} */}
-        <div className="input-container">
+        <div className="create-portfolio-input-container">
           {/* <label>email </label> */}
-          <input onChange={handleChangeInput} value={portfolioDetails.portfolio_name} name='portfolio_name'  type="text" placeholder="Name" required />
+          <input style={{width:'100%'}} onChange={handleChangeInput} value={portfolioDetails.portfolio_name} name='portfolio_name'  type="text" placeholder="Name" required />
         
         </div>
-        <div className="input-container">
+        <div className="create-portfolio-input-container">
           {/* <label>email </label> */}
-          <textarea  onChange={handleChangeInput} value={portfolioDetails.description} name='description' className='description-area'  type="text" placeholder="Description...." required />
+          <textarea style={{width:'100%'}} onChange={handleChangeInput} value={portfolioDetails.description} name='description' className='description-area'  type="text" placeholder="Description...." required />
         
         </div>
         <h3>Choose Strategies</h3>
@@ -254,7 +255,10 @@ export default function PortfolioPage() {
     <div className='create-button-container'>
 <Button 
 onClick={()=>{
-  setPortfolioDetails({})
+  setPortfolioDetails({...portfolioDetails, portfolio_name:'',
+  description:'',
+  portfolio_id:'',
+  strategy_list:[]})
   setSelectedStrategiesList([])
   setMode(modes.CREATE)
 

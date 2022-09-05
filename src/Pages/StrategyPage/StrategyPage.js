@@ -144,17 +144,17 @@ export default function StrategyPage() {
 
   const renderForm = ()=> (
     <div className='strategy-page-container'>
-    <div className="form">
+    <div className="create-strategy-form">
       <form onSubmit={handleSubmit}>
       {/* {renderErrorMessage("email")} */}
-        <div className="input-container">
+        <div className="create-strategy-input-container">
           {/* <label>email </label> */}
-          <input onChange={handleChangeInput} value={strategyDetails.strategy_name} name='strategy_name'  type="text" placeholder="Name" required />
+          <input style={{width:'100%'}} onChange={handleChangeInput} value={strategyDetails.strategy_name} name='strategy_name'  type="text" placeholder="Name" required />
         
         </div>
-        <div className="input-container">
+        <div className="create-strategy-input-container">
           {/* <label>email </label> */}
-          <textarea onChange={handleChangeInput} value={strategyDetails.description} name='description' className='description-area'  type="text" placeholder="Description...." required />
+          <textarea style={{width:'100%'}} onChange={handleChangeInput} value={strategyDetails.description} name='description' className='description-area'  type="text" placeholder="Description...." required />
         
         </div>
       

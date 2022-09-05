@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Checkbox from '@mui/material/Checkbox';
 // import {useDispatch} from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
@@ -11,6 +12,7 @@ import "./signupPage.css";
 function SignupPage(props) {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
+  const [investor,setInvestor] = useState(false)
   const [loading, setLoading] = useState(false);
 //  const dispatch = useDispatch()
  const navigate = useNavigate();
@@ -23,7 +25,7 @@ function SignupPage(props) {
     
     var { email, pass } = document.forms[0];
 
-    let response = await signup({email:email.value,password:pass.value})
+    let response = await signup({email:email.value,password:pass.value,portfolio_manager:!investor});
 
     setLoading(false);
     if(response.status !== 200){
@@ -34,7 +36,6 @@ function SignupPage(props) {
         navigate('/decibel-login')
        
     }
-
   };
 
   // Generate JSX code for error message
@@ -48,16 +49,24 @@ function SignupPage(props) {
     <div className="form">
       <form onSubmit={handleSubmit}>
       {renderErrorMessage("email")}
-        <div className="input-container">
+        <div style={{width:'100%'}} className="input-container">
          
-          <input placeholder="Email" type="email" name="email" required />
+          <input style={{width:'100%'}} placeholder="Email" type="email" name="email" required />
         
         </div>
-        <div className="input-container">
+        <div style={{width:'100%'}} className="input-container">
          
-          <input placeholder="Passowrd" type="password" name="pass" required />
+          <input style={{width:'100%'}} placeholder="Passowrd" type="password" name="pass" required />
 
         </div>
+       
+         <div>
+         <Checkbox onClick={()=>setInvestor(true)}  checked={investor} /> I am an investor
+         </div>
+         <div>
+         <Checkbox onClick={()=>setInvestor(false)} checked={!investor} /> I am a Portfolio Manager
+         </div>
+      
         <div className="button-container">
         <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">{loading?<CircularProgress
             size={25}

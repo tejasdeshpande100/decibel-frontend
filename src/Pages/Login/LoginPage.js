@@ -104,12 +104,12 @@ setLoading(false);
     <div className="form">
       <form onSubmit={handleSubmit}>
       {renderErrorMessage("email")}
-        <div className="input-container">
+        <div style={{width:'100%'}} className="input-container">
           {/* <label>email </label> */}
-          <input type="email" placeholder="Email" name="email" required />
+          <input style={{width:'100%'}} type="email" placeholder="Email" name="email" required />
         
         </div>
-        <div className="input-container">
+        <div style={{width:'100%'}} className="input-container">
           {/* <label>Password </label> */}
           <input type="password" placeholder="Password" name="pass" required />
 
