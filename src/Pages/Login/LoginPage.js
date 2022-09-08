@@ -39,7 +39,7 @@ function LoginPage(props) {
         localStorage.setItem('email',response.data.user.email)
         localStorage.setItem('user_id',response.data.user.user_id)
 
-        navigate('/pm-dashboard')
+        navigate('/usd-inr')
        
     }
   }
@@ -87,7 +87,7 @@ setLoading(false);
         localStorage.setItem('email',response.data.user.email)
         localStorage.setItem('user_id',response.data.user.user_id)
 
-        navigate('/pm-dashboard')
+        navigate('/usd-inr')
        
     }
 
