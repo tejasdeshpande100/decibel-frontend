@@ -364,7 +364,7 @@ const windowValues = [
     This page shows the current signal of the Switching strategy shared with the viewers of Face2Face Talk. A link to Youtube video is available at the bottom of this page. 
 Traders can choose from selective window/period sizes on this page and the results of this page will update. This can help discretionary traders on performing Multi-Time Frame analysis too. The default setting is 21 Days period. 
   </div>
-  <div className='autocomplete-container'>
+  <div style={{width:'85%'}} className='autocomplete-container'>
     <div>
      
     </div>

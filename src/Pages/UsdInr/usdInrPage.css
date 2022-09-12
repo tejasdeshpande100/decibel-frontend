@@ -4,6 +4,7 @@
 }
 
 .title{
+  font-size: 22px;
     text-align: center;
     margin-top: 2em;
     font-weight: bolder;
@@ -15,6 +16,7 @@
     font-weight: bolder;
 }
 .sub-title{
+  font-size: 17px;
   text-align: center;
     margin-bottom: 1em;
     font-weight: bold;
@@ -96,7 +98,7 @@
     
     width: 85%;
   
-
+    font-size: 15px;
     margin: 1em auto;
   }
 
