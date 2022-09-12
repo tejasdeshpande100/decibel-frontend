@@ -358,10 +358,10 @@ const windowValues = [
         Switching Strategy – Longs Only – NIFTY or USDINR
         </div>
         <div className='sub-title'>
-        Face2Face Talk on 04th Aug 2022
+        Face2Face Talk
         </div>
   <div className='sub-header'>
-    This page shows the current signal of the Switching strategy shared with the viewers of Face2Face Talk on 04-Aug-22. A link to Youtube video is available at the bottom of this page. 
+    This page shows the current signal of the Switching strategy shared with the viewers of Face2Face Talk. A link to Youtube video is available at the bottom of this page. 
 Traders can choose from selective window/period sizes on this page and the results of this page will update. This can help discretionary traders on performing Multi-Time Frame analysis too. The default setting is 21 Days period. 
   </div>
   <div className='autocomplete-container'>
