@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Checkbox from '@mui/material/Checkbox';
 // import {useDispatch} from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
+import jwt_decode from 'jwt-decode'
 // import {signIn} from '../../redux/actions'
-import {signup} from "../../api/auth";
+import {signup,google_login} from "../../api/auth";
 import Button from '@mui/material/Button';
 
 import "./signupPage.css";
@@ -16,6 +17,52 @@ function SignupPage(props) {
   const [loading, setLoading] = useState(false);
 //  const dispatch = useDispatch()
  const navigate = useNavigate();
+
+ async function handleCallbackResponse(response) {
+  console.log(response);
+  let userObj = jwt_decode(response.credential);
+
+  if(userObj.email && userObj.name){
+    let response = await google_login(userObj);
+    
+    if(response.status !== 200){
+      if(response.data && response.data.message){
+        setErrorMessages({ name: "email", message: response.data.message  });
+      }else{
+        setErrorMessages({ name: "email", message: "Internal server error"  });
+      }
+        
+    }else{
+        
+        // dispatch(signIn())
+        console.log(response.data);
+        localStorage.setItem('token',response.data.token)
+        localStorage.setItem('email',response.data.user.email)
+        localStorage.setItem('user_id',response.data.user.user_id)
+
+        navigate('/usd-inr')
+       
+    }
+  }
+  
+}
+
+useEffect(() => {
+  /* global google */
+  google.accounts.id.initialize({
+    client_id:"106141003588-7s8kb86pufofvmemcrg5sej6v12m3k83.apps.googleusercontent.com",
+    callback: handleCallbackResponse,
+  });
+  
+
+  
+  google.accounts.id.renderButton(
+    document.getElementById("signInDiv"),
+    {theme:"outline",size:"large", shape:'circle', type:'icon'}
+  )
+
+  
+}, [])
 
   const handleSubmit = async (event) => {
     //Prevent page reload
@@ -60,12 +107,12 @@ function SignupPage(props) {
 
         </div>
        
-         <div>
+         {/* <div>
          <Checkbox onClick={()=>setInvestor(true)}  checked={investor} /> I am an investor
          </div>
          <div>
          <Checkbox onClick={()=>setInvestor(false)} checked={!investor} /> I am a Portfolio Manager
-         </div>
+         </div> */}
       
         <div className="button-container">
         <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">{loading?<CircularProgress
@@ -76,6 +123,12 @@ function SignupPage(props) {
           />:'Signup'}</Button>
         </div>
       </form>
+      <div style={{textAlign:'center', margin:'10px 0'}} >
+     or
+      </div>
+      <div style={{display:'flex'}}>
+      <div style={{margin:'auto'}} id="signInDiv"></div>
+      </div>
     </div>
   );
 
