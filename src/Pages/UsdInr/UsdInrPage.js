@@ -107,8 +107,15 @@ export default function UsdInrPage() {
     if(width<700) corrLineOptions.aspectRatio= 1.4;
     if(width<400) corrLineOptions.aspectRatio= 1;
      
-    console.log(edDdLineOptions)
+    console.log('eqDdResponse',eqDdResponse)
+    const { nf_close_dt, nf_close_pct,nifty_close,usd_close,usd_close_dt,usd_close_pct} = eqDdResponse.data
       return {
+        nf_close_dt: nf_close_dt,
+        nf_close_pct:Math.round(nf_close_pct * 100) / 100,
+        nifty_close:  Math.round(nifty_close),
+        usd_close: Math.round(usd_close * 100) / 100,
+        usd_close_dt: usd_close_dt,
+        usd_close_pct:Math.round(usd_close_pct * 100) / 100,
         corr:{
           options: {...corrLineOptions,scales:{...lineOptions.scales,y:{
             title: {
@@ -391,12 +398,12 @@ Traders can choose from selective window/period sizes on this page and the resul
         width:'85%',
         marginTop:'0.5em'
       }}>
-      <div style={{color:'#343434'}} >
-       <span style={{fontWeight:'bold'}}>NIFTY 17500 <span style={{color:'rgb(39, 159, 103)'}}> 2.3% <ArrowUpwardIcon/> </span></span> - Last Updated: 27-Jul-2022
+      {state?<><div style={{color:'#343434'}} >
+       <span style={{fontWeight:'bold'}}>NIFTY {state.nifty_close} {' '} <span style={{color:'rgb(39, 159, 103)'}}> {state.nf_close_pct}% <ArrowUpwardIcon style={{paddingTop:'12px'}}/> </span></span>  Last Updated: {state.nf_close_dt}
     </div>
     <div style={{color:'#343434'}} >
-       <span style={{fontWeight:'bold'}}> USDINR 78.3 <span style={{color:'rgb(195, 45, 45)'}}> -1.8% <ArrowDownwardIcon/> </span></span> - Last Updated: 26-Jul-2022
-    </div>
+       <span style={{fontWeight:'bold'}}> USDINR {state.usd_close} {' '} <span style={{color:'rgb(195, 45, 45)'}}> {state.usd_close_pct}% <ArrowDownwardIcon style={{paddingTop:'12px'}} /> </span></span>  Last Updated: {state.usd_close_dt}
+    </div></>:null}
    
       </div>
   <div className="body-wrapper">
