@@ -23,8 +23,9 @@ export default function StrategyPipe(props) {
        2
       </div>
       <div>
-       Open P/L: 2.5%
+       Open P/L
       </div>
+      <div>2.5%</div>
       </div>
 
       <div>
@@ -35,18 +36,20 @@ export default function StrategyPipe(props) {
        2
       </div>
       <div>
-       Open P/L: 2.5%
+       Closed P/L
       </div>
+      <div>2.5%</div>
       </div>
 
       <div>
         <div>
-          MTM: 1000
+          LIVE MTM
         </div>
+        <div>1000</div>
         <div>
 <Button
 onClick={()=>openModal()}
-style={{backgroundColor:'#F0F8FF', textTransform:'none'}}>View</Button>
+style={{backgroundColor:'#2CAE76',color:'white', textTransform:'none', marginTop:'0.7em'}}>View Details</Button>
         </div>
       </div>
       

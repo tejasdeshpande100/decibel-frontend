@@ -1,0 +1,47 @@
+.footer-container{
+    z-index: 2;
+    margin-top: 2em;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5em;
+    color:#FFFFFFC7;
+}
+
+.company-details-container{
+    width: 30%;
+    padding: 0 1em 0 1em;
+}
+
+.footer-logo{
+    height: 3.5em;
+}
+
+.company-details{
+    margin-top: 2.5em;
+    font-size: 13px;
+}
+
+.footer-links-container{
+    padding-top: 2em;
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer-links-title{
+   
+        font-size: 15px;
+        font-weight: 600;
+
+}
+
+.footer-links-text{
+    margin-top: 1em;
+    font-size: 13px;
+}
+
+.footer-links{
+    width: 32%;
+   
+}

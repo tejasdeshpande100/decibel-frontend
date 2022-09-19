@@ -8,6 +8,7 @@ import OnlinePredictionIcon from '@mui/icons-material/OnlinePrediction';
 import { useNavigate } from 'react-router-dom'
 import { getStrategies } from '../../api/Strategy/strategy';
 import Modal from '@mui/material/Modal';
+import Footer from '../../Components/Footer/Footer';
 import './pmDashboard.css'
 
 const style = {
@@ -60,6 +61,7 @@ export default function PMDashboard() {
 
 
   return (
+    <>
     <Box  sx={{ display: 'flex' }}>
       <Modal
         open={open}
@@ -101,11 +103,14 @@ export default function PMDashboard() {
 </div>
 <div  className='buttons-container'>
 {[1,2,3,4].map((item,index)=>(
- <Button variant="outlined">Button {item}</Button>
+ <Button style={{backgroundColor:'#2CAE76', color:'white', border:'none'}} variant="outlined">Button {item}</Button>
    
 ))}
 </div>
   </div>
+ 
   </Box>
+  <Footer color={'#5ca9ff'} headingColor={'#0579FF'}/>
+  </>
   )
 }

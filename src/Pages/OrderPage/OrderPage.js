@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect, useRef} from 'react'
 import './orderPage.css'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,6 +10,7 @@ import AutocompleteSearch from '../../Components/AutocompleteSearch/Autocomplete
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+var W3CWebSocket = require('websocket').w3cwebsocket;
 
 const NSE = 'NSE'
 const BSE = 'BSE'
@@ -60,7 +61,7 @@ const products={
         label:'Overnight NRML'
     }
 }
-
+ 
 const order_types={
     Price:{
         MARKET:{   
@@ -114,6 +115,27 @@ const validity_keys = Object.keys(validity_types)
 
 export default function OrderPage() { 
     
+  const ws = useRef(null);
+  const [ticks, setTicks] = React.useState({});
+
+  useEffect(() => {
+      ws.current = new W3CWebSocket('ws://127.0.0.1:8000/ws/ticks/');
+      
+      ws.current.onopen = () => console.log("ws opened");
+      ws.current.onclose = () => console.log("ws closed");
+
+      ws.current.onmessage = (message) => {
+          const data = JSON.parse(message.data);
+          setTicks((ticks) => ({...ticks,...data}));
+         
+      };
+
+      const wsCurrent = ws.current;
+
+      return () => {
+          wsCurrent.close();
+      };
+  },[])
 
     const visiblity = { 
         visible: false,
@@ -148,7 +170,7 @@ export default function OrderPage() {
       };
     
       const showModal = (option) => {
-        console.log(option)
+
         setOrderDetails({...orderDetails,trading_symbol:option.tradingsymbol, exchange:option.exchange,transaction_type:option.transaction_type})
         setModalVisible({...modalVisible,
           visible: true
@@ -161,7 +183,7 @@ export default function OrderPage() {
       }
 
       const addToWatchlist = (option) => {
-        console.log(option)
+
         const instrument_tokens_on_page = watchlist[page].map((item)=>item.instrument_token)
         if(!instrument_tokens_on_page.includes(option.instrument_token)){
           setWatchlist({...watchlist,[page]:[...watchlist[page],option]})
@@ -519,10 +541,11 @@ className='hide-show-toggle'>
  }
 
  const renderWatchList = ()=>{
-  console.log('watchlist',watchlist[page])
+  // console.log('watchlist',watchlist[page])
+ 
   return (
     <div>{watchlist[page].map((option)=>{
-     
+    
       return (
        
        
@@ -536,7 +559,7 @@ className='hide-show-toggle'>
        <div 
 className='item-details'>
   
-<div className='item-name'>{option.name}</div>
+<div className='item-name'>{ticks[option.instrument_token]?ticks[option.instrument_token].ltp:null}</div>
 
 </div>
 <div className='action-buttons'>

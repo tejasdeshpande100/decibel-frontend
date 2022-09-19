@@ -9,6 +9,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LaunchIcon from '@mui/icons-material/Launch';
 import Logo from '../../../images/Logo 1.png'
+import portfolio_management_icon from '../../../images/portfolio_management_icon.png'
+import strategy_management_icon from '../../../images/strategy_management_icon.png'
+import historical_performance_icon from '../../../images/historical_performance_icon.png'
+import invoice_icon from '../../../images/invoice_icon.png'
+import logout_sidebar_icon from '../../../images/logout_sidebar_icon.png'
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -24,15 +29,18 @@ export default function SideNav() {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            border: 'none'
+            border: 'none',
+            backgroundColor:'black',
+            color:'#DEDEDE',
+            // zIndex: -1
           }
         }}
         variant="permanent"
         anchor="left"
       >
         <Toolbar >
-          <div style={{textAlign:'center'}} className="dice-sidenav-logo">
-       <img style={{height:'100px', cursor:'pointer'}} alt={'Templogo'} src={Logo}/>
+          <div style={{textAlign:'left'}} className="dice-sidenav-logo">
+       <img style={{height:'50px', cursor:'pointer'}} alt={'Templogo'} src={Logo}/>
         </div> 
         </Toolbar >
         

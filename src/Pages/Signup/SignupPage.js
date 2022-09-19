@@ -107,12 +107,12 @@ useEffect(() => {
 
         </div>
        
-         {/* <div>
+         <div>
          <Checkbox onClick={()=>setInvestor(true)}  checked={investor} /> I am an investor
          </div>
          <div>
          <Checkbox onClick={()=>setInvestor(false)} checked={!investor} /> I am a Portfolio Manager
-         </div> */}
+         </div>
       
         <div className="button-container">
         <Button fullWidth type="submit" style={{"text-transform": "none"}} variant="contained">{loading?<CircularProgress
