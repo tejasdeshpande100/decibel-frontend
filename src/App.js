@@ -17,6 +17,7 @@ import OrderPage from './Pages/OrderPage/OrderPage';
 import StrategyPage from './Pages/StrategyPage/StrategyPage';
 import PortfolioPage from './Pages/PortfolioPage/PortfolioPage';
 import PMDashboard from './Pages/PMDashboard/PMDashboard';
+import SubscriberManagement from './Pages/SubscriberManagement/SubscriberManagement';
 import WSTesting from './Pages/WSTesting/WSTesting';
 // import {useSelector} from 'react-redux'
 // import Axios from 'axios'
@@ -46,7 +47,8 @@ function App() {
       <Route path="/portfolios" element={<PrivateRoute><PortfolioPage/></PrivateRoute>} />
       <Route path="/pm-dashboard" element={<PrivateRoute><PMDashboard/></PrivateRoute>} />
       <Route path="/ws-test" element={<PrivateRoute><WSTesting/></PrivateRoute>} />
-        <Route path="/" element={<Homepage/>} />
+      <Route path="/" element={<Homepage/>} />
+        <Route path="/subscriber-management" element={<PrivateRoute><SubscriberManagement/></PrivateRoute>} />
         </Routes>
   </BrowserRouter>
  

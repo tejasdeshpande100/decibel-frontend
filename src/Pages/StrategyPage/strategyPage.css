@@ -8,9 +8,11 @@
     width: 100%;
 }
 
-.page-header{
+.strategy-page-header{
     font-weight: 500;
-    font-size: 1.5em;
+    font-size: 1.7em;
+    margin-bottom: 2em;
+    color:'grey'
 }
 
 .create-button-container{
@@ -20,6 +22,8 @@
 .create-strategy-input-container{
     width: 100%;
     margin-bottom: 2em;
+    display: flex;
+    justify-content: space-between;
 }
 
 .strategy-table-header{
@@ -40,14 +44,47 @@
 }
 
 .strategy-button-wrapper{
-    width: 49%;
+    /* width: 49%; */
+}
+
+.table-buttons-container{
+    margin-top: 2em;
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
 }
 
 .button-container{
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .create-strategy-form{
-    width:45%;
-    margin:5em auto 0 auto;
+    /* width:45%; */
+    margin:10px auto 0 auto;
+    border:solid 1px #6B6768;
+    border-radius: 5px;
+    padding: 2em
+    
+}
+
+.create-strategy-input{
+    background-color: white;
+}
+
+.strategy-source-radio-container{
+    border:solid 1px #6B6768;
+    height: 200px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 2em;
+    margin-top: 0.5em;
+    margin-bottom: 2em;
+}
+
+.strategy-form-header{
+    font-weight: bold;
+    font-size: medium;
 }

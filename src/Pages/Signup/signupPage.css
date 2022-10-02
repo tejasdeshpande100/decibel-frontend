@@ -12,8 +12,16 @@
   input[type="password"] {
     height: 25px;
     outline: none;
-    background-color: #F0F0F0;
-    border: none;
+    /* background-color: #F0F0F0; */
+    border: solid 1px #B5B3B3;
+    border-radius: 5px;
+    padding: 1px 10px;
+  }
+
+  textarea{
+    outline: none;
+    border: solid 1px #B5B3B3;
+    border-radius: 5px;
     padding: 1px 10px;
   }
   

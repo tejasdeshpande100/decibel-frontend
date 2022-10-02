@@ -1,0 +1,67 @@
+.SubscriberManagement-page-container{
+    padding: 4em 4em 0 4em;
+    width: 100%;
+}
+
+.subscriber-modal-switch-form-type{
+    display: flex;
+    justify-content: space-between;
+}
+
+.email-invite-form{
+    padding-top:1em;
+}
+
+.email-invite-form-input-container{
+    margin-top: 1em;
+    width: 100%;
+}
+
+.email-invite-button-container{
+    margin-top: 1em;
+    width: 100%;
+}
+
+.manual-entry-form-input-container{
+    margin-top: 1em;
+}
+
+.manual-entry-button-container{
+    margin-top: 1em;
+}
+
+.approval-queue-conatiner{
+        margin-top: 2em;
+        /* background-color: green; */
+        /* border: solid 1px #e6e6e6; */
+        /* padding: 0 20px;
+        border-radius: 5px; */
+        /* height: 200px; */
+        /* overflow-y: scroll;  */
+}
+
+.client-pipe{
+    display: flex;
+    justify-content: space-between;
+}
+
+.client-approval-btn-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.client-approval-icon-container{
+    cursor: pointer;
+}
+
+.clients-status-select-container{
+    margin-top: 2em;
+    text-align: right;
+    width: 100%;
+}
+
+.subscriber-table-heading{
+    margin-top: 2em;
+    font-size: 17px;
+    font-weight: bold;
+}
