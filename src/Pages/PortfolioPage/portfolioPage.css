@@ -34,8 +34,23 @@ width: 100%;
     justify-content: space-between;
 }
 
-.available-strategies-section{
+.available-strategies-section-wrapper{
     width: 48%;
+}
+
+.available-strategies-section{
+
+    background: #FBF9F7;
+border: 1px solid #B5B3B3;
+border-radius: 15px;
+padding: 1em;
+}
+
+.available-portfolios-section{
+    background: #FBF9F7;
+border: 1px solid #B5B3B3;
+border-radius: 15px;
+padding: 1em;
 }
 
 .chosen-strategies-section{
@@ -45,6 +60,11 @@ width: 100%;
 .strategy-item{
     display: flex;
     justify-content: space-between;
+    padding:5px;
+    background-color: white;
+    border: 1.33403px solid #B3B0AF;
+    border-radius: 10px;
+    margin-top: 5px;
 
 }
 
@@ -60,4 +80,55 @@ width: 100%;
 .create-portfolio-form{
     width:45%;
     margin:5em auto 0 auto;
+}
+
+.build-portfolio-band{
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #ECB22D;
+    text-align: center;
+    padding: 3px 0;
+    margin: 1em 0 0 0;
+}
+
+.create-portfolio-form{
+    /* width:45%; */
+    width: 100%;
+    margin:10px auto 0 auto;
+    border:solid 1px #6B6768;
+    border-radius: 5px;
+   
+    
+}
+
+.create-portfolio-input-container{
+    width: 100%;
+    margin-bottom: 2em;
+    padding: 2em 2em 0 2em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.multiplier-input{
+    border-radius: 5px;
+    width:50px;
+    height:25px;
+    border: none;
+    background-color: #2CAE76;
+    color: white;
+    padding: 0 5px;
+}
+
+.choose-strategies-section-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.portfolio-composition-table-header{
+    display: flex;
+    justify-content: space-between;
+    background-color: #6B6768;
+    color: #FFFFFF;
+    padding: 10px;
+    border-radius: 10px;
 }

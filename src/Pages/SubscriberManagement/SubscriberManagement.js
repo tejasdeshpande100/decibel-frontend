@@ -2,20 +2,26 @@ import React,{useState} from 'react'
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
+import CircularProgress from '@mui/material/CircularProgress';
 import Radio from '@mui/material/Radio';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell,  { tableCellClasses } from '@mui/material/TableCell';
+import RotateRightIcon from '@mui/icons-material/RotateRight';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import DangerousIcon from '@mui/icons-material/Dangerous';
 import Select from '@mui/material/Select';
 import SideNav from '../../Components/SideNav/Desktop/SideNav';
+import Footer from '../../Components/Footer/Footer';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
+import Switch from '@mui/material/Switch';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -49,13 +55,13 @@ const style = {
   };
 
   const loginTypes = {
-    FULLY_MANAGED: 'Fully Managed',
-    PARTIALLY_MANAGED: 'Partially Managed',
+    FULLY_MANAGED: 'Fully Managed (Auto Login)',
+    PARTIALLY_MANAGED: 'Client Managed (Token Refresh)',
 }
 
 const formTypes = {
-    EMAIL_INVITE:'Email Invite',
-    MANUAL_ENTRY:'Manual Entry'
+    EMAIL_INVITE:'Invite via Email',
+    MANUAL_ENTRY:'Manual Entry '
 }
 
 const clientStatuses = {
@@ -69,7 +75,8 @@ export default function SubscriberManagement() {
     const [formType, setFormType] = React.useState(formTypes.EMAIL_INVITE);
     const [loginType, setLoginType] = React.useState(loginTypes.FULLY_MANAGED);
     const [clientStatus, setClientStatus] = React.useState(clientStatuses.DEACTIVATED);
-
+    const [showAddSubscriberForm, setShowAddSubscriberForm] = React.useState(false);
+    const [loading,setLoading] = useState(false)
  
     const [formData, setFormData] = React.useState({
         EmailInvite:{
@@ -215,8 +222,8 @@ export default function SubscriberManagement() {
                 setLoginType(login_type)
             }
         
-            const handleChangeFormType = (event) => {
-                setFormType(event.target.value);
+            const handleChangeFormType = (value) => {
+                setFormType(value);
               };
 
     const addEditSubscriberModal = () => {
@@ -279,6 +286,143 @@ export default function SubscriberManagement() {
         )
     }
 
+    const renderForm = ()=> (
+      <div >
+      <div className="create-strategy-form">
+      <div className='subscriber-mode-radio-container'>
+      <span style={{fontWeight:'bold',marginBottom:'10px',minWidth:'200px'}}>Subscriber Trading Mode <span style={{color:'#FE0707'}}>*</span></span>   
+        <div style={{minWidth:'300px'}}>
+        
+      <Radio
+      
+            size='small'
+            checked={loginType === loginTypes.FULLY_MANAGED}
+            onChange={()=>handleChangeLoginType(loginTypes.FULLY_MANAGED)}
+            value={loginTypes.FULLY_MANAGED}
+              style={{color:'#2CAE76'}}
+              name="radio-buttons"
+              inputProps={{ 'aria-label': loginTypes.FULLY_MANAGED }}
+            />{loginTypes.FULLY_MANAGED}
+            </div>
+            <div style={{minWidth:'300px'}}>       
+      <Radio
+      size='small'
+        checked={loginType  === loginTypes.PARTIALLY_MANAGED}
+        onChange={()=>handleChangeLoginType(loginTypes.PARTIALLY_MANAGED)}
+        value={loginTypes.PARTIALLY_MANAGED}
+        style={{color:'#2CAE76'}}
+        name="radio-buttons"
+        inputProps={{ 'aria-label': loginTypes.PARTIALLY_MANAGED }}
+      />
+      {loginTypes.PARTIALLY_MANAGED}
+      
+      </div>
+        </div>
+        <div className='subscriber-mode-radio-container'>
+      <span style={{fontWeight:'bold',marginBottom:'10px',minWidth:'200px'}}>Details Entry Mode <span style={{color:'#FE0707'}}>*</span></span>   
+        <div style={{minWidth:'300px'}}>
+      <Radio
+      style={{color:'#2CAE76'}}
+            size='small'
+            checked={loginType === formTypes.EMAIL_INVITE}
+            onChange={()=>handleChangeFormType(formTypes.EMAIL_INVITE)}
+            value={formTypes.EMAIL_INVITE}
+              name="radio-buttons"
+              inputProps={{ 'aria-label': formTypes.EMAIL_INVITE }}
+            />{formTypes.EMAIL_INVITE}
+            </div>
+            <div style={{minWidth:'300px'}}>       
+      <Radio
+      size='small'
+        checked={loginType  === formTypes.MANUAL_ENTRY}
+        onChange={()=>handleChangeFormType(formTypes.MANUAL_ENTRY)}
+        value={formTypes.MANUAL_ENTRY}
+        style={{color:'#2CAE76'}}
+        name="radio-buttons"
+        inputProps={{ 'aria-label': formTypes.MANUAL_ENTRY }}
+      />
+      {formTypes.MANUAL_ENTRY}
+      
+      </div>
+        </div>
+        <form onSubmit={()=>0}>
+        {/* {renderErrorMessage("email")} */}
+          <div className="add-subscriber-input-container">
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>Full Name <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>Email Address <span style={{color:'#FE0707'}}>*</span></div>
+            <input  style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.alias} name='alias'  type="text" placeholder="alias" required/>
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>Phone Number <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>Subscriber Alias <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>Broker Name <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>Broker User Name <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>Broker Password <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>API Key <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>API Secret <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>TOTP Seed/ID <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+            <div style={{width:'45%'}} >
+            <div style={{fontWeight:'bold',margin:'10px 0 5px 0'}}>PIN <span style={{color:'#FE0707'}}>*</span></div>
+            <input style={{width:'100%'}} onChange={handleInputManualEntry} value={formData.ManualEntry.name} name='name'  type="text" placeholder="name" required />
+            </div>
+          </div>
+          
+          
+          <div className="button-container">
+          <div className='strategy-button-wrapper'>
+            <Button  type="submit"
+            style={{"text-transform": "none",backgroundColor:'#2CAE76', fontWeight:'bold',width:'200px'}} 
+            variant="contained" color="primary" className="strategy-button"
+            >{loading?<CircularProgress
+              size={25}
+              sx={{
+                color: 'white',
+              }}
+            />:'Add Subscriber'}</Button>   
+               </div>
+               <div className='strategy-button-wrapper'>
+          <Button  onClick={()=>setShowAddSubscriberForm(false)}  type="submit" 
+           style={{"text-transform": "none",backgroundColor:'black', fontWeight:'bold',width:'200px'}} 
+           variant="contained" color="primary" 
+          >Cancel</Button>
+          </div>
+          </div>
+          
+        </form>
+        <div style={{textAlign:'center', margin:'10px 0'}} >
+      
+        </div>
+      </div>
+      </div>
+    );
+
 
     const approvalQueueTable = () => {
     return (
@@ -289,7 +433,7 @@ export default function SubscriberManagement() {
           
           <TableRow  >
            
-            {['Strategy ID','Strategy Name','Min. Capital','Return','Drawdown','Source','Created On','Actions'].map((header)=>{
+            {['Client Name','Email','Phone No.','Broker','Broker ID','Broker Pass','API Key','API Secret','Date','Actions'].map((header)=>{
               return (
                 <StyledTableCell style={{backgroundColor:'#6B6768',color:'white'}} align="center">{header}</StyledTableCell>
               )})}     
@@ -303,12 +447,14 @@ export default function SubscriberManagement() {
               key={strategy.strategy_id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <StyledTableCell align="center">AX-1031</StyledTableCell>
-                <StyledTableCell align="center">QUICK SINGLES NUMBER 02</StyledTableCell>
-                <StyledTableCell align="center">₹ 2,00,000</StyledTableCell>
-                <StyledTableCell style={{color:'#2CAE76'}} align="center">₹ 1,20,000 (60%)</StyledTableCell>
-                <StyledTableCell align="center">₹ 1,20,000 (60%)</StyledTableCell>
-                <StyledTableCell align="center">Amibroker</StyledTableCell>
+              <StyledTableCell align="center">Anohony Gonzalez</StyledTableCell>
+                <StyledTableCell align="center">anthony.gonzalez@gmail.com</StyledTableCell>
+                <StyledTableCell align="center">9818012345</StyledTableCell>
+                <StyledTableCell  align="center">Zerodha</StyledTableCell>
+                <StyledTableCell align="center">ABC9090</StyledTableCell>
+                <StyledTableCell align="center"><CheckBoxIcon style={{color:'#2CAE76'}}/></StyledTableCell>
+                <StyledTableCell align="center"><DangerousIcon style={{color:'#D90B0B'}} /></StyledTableCell>
+                <StyledTableCell align="center"><DangerousIcon style={{color:'#D90B0B'}} /></StyledTableCell>
                 <StyledTableCell align="center">02-Apr-22</StyledTableCell>
                 <StyledTableCell align="center">
                 <VisibilityIcon style={{cursor:'pointer',height:'17px'}}/>
@@ -369,7 +515,7 @@ export default function SubscriberManagement() {
           
           <TableRow  >
            
-            {['Strategy ID','Strategy Name','Min. Capital','Return','Drawdown','Source','Created On','Actions'].map((header)=>{
+            {['Enable','Client ID','Client Alias','Client Name','Broker','Trading Mode','Portfolios','Actions'].map((header)=>{
               return (
                 <StyledTableCell style={{backgroundColor:'#6B6768',color:'white'}} align="center">{header}</StyledTableCell>
               )})}     
@@ -383,13 +529,13 @@ export default function SubscriberManagement() {
               key={strategy.strategy_id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <StyledTableCell align="center">AX-1031</StyledTableCell>
-                <StyledTableCell align="center">QUICK SINGLES NUMBER 02</StyledTableCell>
-                <StyledTableCell align="center">₹ 2,00,000</StyledTableCell>
-                <StyledTableCell style={{color:'#2CAE76'}} align="center">₹ 1,20,000 (60%)</StyledTableCell>
-                <StyledTableCell align="center">₹ 1,20,000 (60%)</StyledTableCell>
-                <StyledTableCell align="center">Amibroker</StyledTableCell>
-                <StyledTableCell align="center">02-Apr-22</StyledTableCell>
+              <StyledTableCell align="center">  <Switch color='success' defaultChecked /></StyledTableCell>
+                <StyledTableCell align="center">AX-103189</StyledTableCell>
+                <StyledTableCell align="center">JOHNSELLO</StyledTableCell>
+                <StyledTableCell  align="center">Bala Ram Khan Sindhwani</StyledTableCell>
+                <StyledTableCell align="center">Zerodha</StyledTableCell>
+                <StyledTableCell align="center">Auto-Login</StyledTableCell>
+                <StyledTableCell align="center">Trend Following Index , Quick Singles, Dynamic</StyledTableCell>
                 <StyledTableCell align="center">
                 <VisibilityIcon style={{cursor:'pointer',height:'17px'}}/>
                   <EditOutlinedIcon onClick={()=>0} style={{cursor:'pointer',height:'17px'}}/>
@@ -448,7 +594,7 @@ export default function SubscriberManagement() {
             
             <TableRow  >
              
-              {['Strategy ID','Strategy Name','Min. Capital','Return','Drawdown','Source','Created On','Actions'].map((header)=>{
+              {['Client ID','Client Alias','Client Name','Email','Phone','Broker','Trading Mode','Actions'].map((header)=>{
                 return (
                   <StyledTableCell style={{backgroundColor:'#6B6768',color:'white'}} align="center">{header}</StyledTableCell>
                 )})}     
@@ -462,17 +608,16 @@ export default function SubscriberManagement() {
                 key={strategy.strategy_id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <StyledTableCell align="center">AX-1031</StyledTableCell>
-                  <StyledTableCell align="center">QUICK SINGLES NUMBER 02</StyledTableCell>
-                  <StyledTableCell align="center">₹ 2,00,000</StyledTableCell>
-                  <StyledTableCell style={{color:'#2CAE76'}} align="center">₹ 1,20,000 (60%)</StyledTableCell>
-                  <StyledTableCell align="center">₹ 1,20,000 (60%)</StyledTableCell>
-                  <StyledTableCell align="center">Amibroker</StyledTableCell>
-                  <StyledTableCell align="center">02-Apr-22</StyledTableCell>
+                <StyledTableCell align="center">AX-103189</StyledTableCell>
+                  <StyledTableCell align="center">JOHNSELLO</StyledTableCell>
+                  <StyledTableCell align="center">Bala Ram Khan Sindhwani</StyledTableCell>
+                  <StyledTableCell align="center">anthony.gonzalez@gmail.com</StyledTableCell>
+                  <StyledTableCell align="center">9818012345</StyledTableCell>
+                  <StyledTableCell align="center">Zerodha</StyledTableCell>
+                  <StyledTableCell align="center">Auto-Login</StyledTableCell>
                   <StyledTableCell align="center">
-                  <VisibilityIcon style={{cursor:'pointer',height:'17px'}}/>
-                    <EditOutlinedIcon onClick={()=>0} style={{cursor:'pointer',height:'17px'}}/>
-                    <DeleteOutlineOutlinedIcon onClick={()=>0} style={{cursor:'pointer',height:'17px'}}/>
+                  <DeleteOutlineOutlinedIcon onClick={()=>0} style={{cursor:'pointer',height:'17px'}}/>
+                  <RotateRightIcon style={{cursor:'pointer',height:'17px'}}/>  
                   </StyledTableCell>
                 {/* <StyledTableCell align="center">{strategy.strategy_id}</StyledTableCell>
                   <StyledTableCell align="center">{strategy.strategy_name}</StyledTableCell>
@@ -519,22 +664,27 @@ export default function SubscriberManagement() {
     }
 
   return (
+    <>
     <Box sx={{ display: 'flex' }}>
       <SideNav />
         {addEditSubscriberModal()}
         <div className='SubscriberManagement-page-container'>
-            <Button 
-            onClick={handleOpen}
+           {showAddSubscriberForm?<div style={{fontWeight:'bold',fontSize:'18px'}}>Add New Subscriber</div>: <Button 
+            onClick={()=>setShowAddSubscriberForm(true)}
             style={{"text-transform": "none",backgroundColor:'#2CAE76', fontWeight:'bold'}} 
-            variant="contained" color="primary">+ Add New Subscriber</Button>
+            variant="contained" color="primary">+ Add New Subscriber</Button>}
+            {showAddSubscriberForm?renderForm():null}
              <div className='subscriber-table-heading'>Pending Approval</div>
              {approvalQueueTable()}
              <div className='subscriber-table-heading'>Active Clients</div>
              {activeClientsTable()}
              <div className='subscriber-table-heading'>Removed Clients</div>
              {removedClientsTable()}
+            
         </div>
        
     </Box>
+     <Footer/>
+     </>
   )
 }

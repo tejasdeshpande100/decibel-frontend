@@ -65,3 +65,17 @@
     font-size: 17px;
     font-weight: bold;
 }
+
+.add-subscriber-input-container{
+    width: 100%;
+    margin-bottom: 2em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.subscriber-mode-radio-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

@@ -5,6 +5,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -47,8 +48,8 @@ const modes = {
 export default function PortfolioPage() {
   const [loading,setLoading] = useState(false)
   const [mode, setMode] = React.useState(modes.VIEW);
-  const [allStrategiesList, setAllStrategiesList] = React.useState([]);
-  const [strategiesList, setStrategiesList] = React.useState([]);
+  const [allStrategiesList, setAllStrategiesList] = React.useState([{strategy_id:1,strategy_name:'Strategy 1'},{strategy_id:2,strategy_name:'Strategy 2'}]);
+  const [strategiesList, setStrategiesList] = React.useState([{strategy_id:1,strategy_name:'Strategy 1'},{strategy_id:2,strategy_name:'Strategy 2'}]);
   const [selectedStrategiesList, setSelectedStrategiesList] = React.useState([]);
   const [portfoliosList, setPortfoliosList] = React.useState([]);
   const [portfolioDetails, setPortfolioDetails] = React.useState({
@@ -85,7 +86,7 @@ export default function PortfolioPage() {
       return strategy_response;
     }
 
-    getData()
+    // getData()
     
 
     }, [])
@@ -250,11 +251,11 @@ export default function PortfolioPage() {
     <div className='strategy-page-container'>
       <div style={{color:'grey'}}className='strategy-page-header'>Portfolio Management</div>
       <div className="strategy-form-header">Create New Portfolio</div>
-    <div className="create-strategy-form">
+    <div className="create-portfolio-form">
       
       <form onSubmit={handleSubmit}>
       {/* {renderErrorMessage("email")} */}
-        <div className="create-strategy-input-container">
+        <div className="create-portfolio-input-container">
           <div style={{width:'45%'}} >
           <div style={{fontWeight:'bold',marginBottom:'10px'}}>Portfolio Name <span style={{color:'#FE0707'}}>*</span></div>
           <input style={{width:'100%'}} onChange={handleChangeInput} value={portfolioDetails.portfolio_name} name='portfolio_name'  type="text" placeholder="Name" required />
@@ -264,36 +265,63 @@ export default function PortfolioPage() {
           <input  style={{width:'100%'}} onChange={handleChangeInput} value={portfolioDetails.portfolio_min_capital} name='portfolio_min_capital'  type="text" placeholder="Rs.100000" required />
           </div>
         </div>
-        <div>
+        <div className="create-portfolio-input-container">
+          <div style={{width:'100%'}}>
         <div style={{fontWeight:'bold',marginBottom:'10px'}}>Portfolio Description<span style={{color:'#FE0707'}}>*</span></div>
         <div>
           <textarea style={{width:'100%', height:'170px'}} onChange={handleChangeInput} value={portfolioDetails.description} name='description'   type="text" placeholder="Description...." required />
           </div>
+          </div>
         </div>
-        <div style={{fontWeight:'bold',marginBottom:'10px'}}>Strategy Source <span style={{color:'#FE0707'}}>*</span></div>
+        <div className='build-portfolio-band' >BUILD PORTFOLIO</div>
         
+<div style={{padding:'2em 2em 0 2em'}}>
 
-        <h3>Choose Strategies</h3>
+        
        <div className='choose-strategies-section'>
+        <div className='available-strategies-section-wrapper'> <h3>Add Strategy</h3>
         <div className='available-strategies-section'>
         {strategiesList.length ?strategiesList.map((strategy,index)=>(
               <div key={strategy.strategy_id} className='strategy-item'>
                 <div className='strategy-item-name'>{strategy.strategy_name}</div>
-                <div onClick={()=>addStrategy(index)} className='add-strategy-button'>+ ADD</div>
+                <div className='strategy-item-name'>SX-120123</div>
+                <div className='strategy-item-name'>₹ 2,00,000</div>
+                <div onClick={()=>addStrategy(index)} style={{"text-transform": "none",backgroundColor:'#2CAE76', color:'white',padding:'0.5px 7px', borderRadius:'5px', cursor:'pointer'}} 
+variant="contained" color="primary">ADD +</div>
                 </div>
             )):null}
           </div>
+          </div>
+          
           <div className='chosen-strategies-section'>
+          <div > <h3>Portfolio Composition</h3>
+          <div className='available-portfolios-section'>
+            <div className='portfolio-composition-table-header'>
+              <div>Strategy</div>
+              <div>Strategy Id</div>
+              <div>Min. Capital</div>
+              <div>Multiplier</div>
+              <div>Weight</div>
+              <div>Action</div>
+            
+ </div>
           { selectedStrategiesList.length? selectedStrategiesList.map((strategy,index)=>(
               <div key={strategy.strategy_id} className='strategy-item'>
                 <div className='strategy-item-name'>{strategy.strategy_name}</div>
-                <div  onClick={()=>removeStrategy(index)} className='add-strategy-button'> <DeleteOutlineOutlinedIcon/></div>
+                <div className='strategy-item-name'>SX-120123</div>
+                <div className='strategy-item-name'>₹ 2,00,000</div>
+               <input type="number" className='multiplier-input'></input>
+                <div className='strategy-item-name'>12.50%</div>
+                <div  style={{color:'#D20A16'}} onClick={()=>removeStrategy(index)} className='add-strategy-button'><DeleteOutlineOutlinedIcon style={{height:'20px'}}/></div>
                 </div>
             )):null}
+            </div>
+            </div>
           </div>
        
         </div>
-        
+      
+        </div>
         <div className="button-container">
         <div className='strategy-button-wrapper'>
           <Button  type="submit"
@@ -304,7 +332,7 @@ export default function PortfolioPage() {
             sx={{
               color: 'white',
             }}
-          />:modes.CREATE === mode?'Create Strategy':'Save Strategy'}</Button>   
+          />:modes.CREATE === mode?'Create Portfolio':'Save Portfolio'}</Button>   
              </div>
              <div className='strategy-button-wrapper'>
         <Button onClick={()=>setMode(modes.VIEW)}  type="submit" 
@@ -466,11 +494,11 @@ variant="contained" color="primary" className="strategy-button">
     </Table>
     <div className='table-buttons-container'>
       <Button style={{"text-transform": "none",backgroundColor:'#2CAE76', fontWeight:'bold'}} 
-variant="contained" color="primary">Create Strategy</Button>
+variant="contained" color="primary">Create Portfolio</Button>
       <Button style={{"text-transform": "none",backgroundColor:'#2CAE76', fontWeight:'bold'}} 
-variant="contained" color="primary">Create Strategy</Button>
+variant="contained" color="primary">Create Portfolio</Button>
       <Button style={{"text-transform": "none",backgroundColor:'#2CAE76', fontWeight:'bold'}} 
-variant="contained" color="primary">Create Strategy</Button>
+variant="contained" color="primary">Create Portfolio</Button>
       </div>
   </TableContainer> 
   </div>
