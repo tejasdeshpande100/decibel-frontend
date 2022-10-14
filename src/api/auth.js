@@ -1,8 +1,8 @@
 import Axios from 'axios'
 
-const loginUrl = process.env.REACT_APP_BACKEND_URL+"/login"
-const googleLoginUrl = "https://lthdu5y95h.execute-api.us-east-1.amazonaws.com/prod/google-login"
-const signupUrl = process.env.REACT_APP_BACKEND_URL+"/signup"
+const loginUrl = "https://zx8sipvone.execute-api.ap-south-1.amazonaws.com/dev/login"
+const googleLoginUrl = "https://zx8sipvone.execute-api.ap-south-1.amazonaws.com/dev/google-login"
+const signupUrl = "https://zx8sipvone.execute-api.ap-south-1.amazonaws.com/dev/signup"
 
 export const login = async (userData)=>{
     
