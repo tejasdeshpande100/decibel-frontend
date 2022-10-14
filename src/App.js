@@ -35,16 +35,16 @@ function App() {
       <Routes>
       <Route path="/decibel-signup" element={<SignupPage/>} />
       <Route path="/decibel-login" element={<LoginPage/>} />
-      <Route path="/dashboard" element={<PrivateRoute><DashboardPage/></PrivateRoute>} />
-      <Route path="/broker-login" element={<PrivateRoute><BrokerLoginPage/></PrivateRoute>} />
+      {/* <Route path="/dashboard" element={<PrivateRoute><DashboardPage/></PrivateRoute>} /> */}
+      {/* <Route path="/broker-login" element={<PrivateRoute><BrokerLoginPage/></PrivateRoute>} />
       <Route path="/broker-setup" element={<PrivateRoute><BrokerSetupPage/></PrivateRoute>} />
-      <Route path="/kite-callback" element={<PrivateRoute><KiteCallbackPage/></PrivateRoute>} />
+      <Route path="/kite-callback" element={<PrivateRoute><KiteCallbackPage/></PrivateRoute>} /> */}
       <Route path="/usd-inr" element={<PrivateRoute><UsdInrPage/></PrivateRoute>} />
-      <Route path="/place-order" element={<PrivateRoute><OrderPage/></PrivateRoute>} />
+      {/* <Route path="/place-order" element={<PrivateRoute><OrderPage/></PrivateRoute>} />
       <Route path="/strategies" element={<PrivateRoute><StrategyPage/></PrivateRoute>} />
       <Route path="/portfolios" element={<PrivateRoute><PortfolioPage/></PrivateRoute>} />
-      <Route path="/pm-dashboard" element={<PrivateRoute><PMDashboard/></PrivateRoute>} />
-        <Route path="/" element={<Homepage/>} />
+      <Route path="/pm-dashboard" element={<PrivateRoute><PMDashboard/></PrivateRoute>} /> */}
+        <Route path="/" element={<LoginPage/>} />
         </Routes>
   </BrowserRouter>
  
