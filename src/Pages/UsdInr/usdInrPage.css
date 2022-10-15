@@ -119,6 +119,16 @@
     margin-top: 2em;
   }
 
+  .nifty-usd-ticker-container{
+  
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+       margin:auto;
+       width:85%;
+       margin-top:0.5em;
+     
+  }
 
 
   @media (max-width: 900px) {
@@ -134,5 +144,10 @@
 
   .chart-container{
     width: 100%;
+  }
+
+ .nifty-usd-ticker-container{
+  margin-bottom: 1em;
+  width:98%;
   }
   }

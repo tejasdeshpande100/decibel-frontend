@@ -390,14 +390,7 @@ Traders can choose from selective window/period sizes on this page and the resul
       renderInput={(params) => <TextField {...params} label="Window" />}
     />
       </div>
-      <div style={{
-       display:'flex',
-       flexWrap:'wrap',
-       justifyContent:'space-between',
-        margin:'auto',
-        width:'85%',
-        marginTop:'0.5em'
-      }}>
+      <div className='nifty-usd-ticker-container'>
       {state?<><div style={{color:'#343434'}} >
        <span style={{fontWeight:'bold'}}>NIFTY {state.nifty_close} {' '} <span style={{color:'rgb(39, 159, 103)'}}> {state.nf_close_pct}% <ArrowUpwardIcon style={{paddingTop:'12px'}}/> </span></span>  Last Updated: {state.nf_close_dt}
     </div>
