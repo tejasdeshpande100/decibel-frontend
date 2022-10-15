@@ -408,45 +408,14 @@ Traders can choose from selective window/period sizes on this page and the resul
       </div>
   <div className="body-wrapper">
             <div className="body-container">  
-
-            
-            {state ? (
-            <>
-            <div className="chart-title-container">
-                {/* <div className="chart-title">Equity/Drawdown Curve</div> */}
-              </div>
-              <div style={{width:'auto'}} className='chart-container' >
-              <LineChart 
-              chartOptions={state.eq.options}
-              chartData={state.eq.data} />
-               
-              </div>
-
-                <div style={{width:'auto'}} className='chart-container' >
-               
-                <LineChart 
-              chartOptions={state.dd.options}
-              chartData={state.dd.data} />
-                  </div>
-              <div className="charts-container">
-              
-
-                  <div className="chart-container">
-                  <LineChart 
-              chartOptions={state.corr.options}
-              chartData={state.corr.data} />
-              </div>
-
-                  <div className="chart-container">
-                  <BarChart 
-              chartOptions={state.corr_hist.options}
-              chartData={state.corr_hist.data} />
-                  </div>
-                
-            </div>
-           <div className='table-heading'>{`Most Recent 10 Trades for Window size = ${window} Days`}</div>
-
-
+            <div style={{display:'flex', flexWrap:'wrap', justifyContent:'space-between'}}>
+            <div className='table-heading'>{`Most Recent 10 Trades for Window size = ${window} Days`}</div>
+           {state?<><div style={{color:'#343434', marginBottom:'10px'}} >
+ Last Updated: {state.nf_close_dt}
+    </div>
+   </>:null}
+  
+   </div>
             <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -483,7 +452,43 @@ Traders can choose from selective window/period sizes on this page and the resul
           ))}
         </TableBody>
       </Table>
-    </TableContainer>    
+    </TableContainer>  
+    <div style={{marginTop:'1em', fontSize:'16px'}} className='table-heading'>Historical Performance</div>
+            {state ? (
+            <>
+            <div className="chart-title-container">
+                {/* <div className="chart-title">Equity/Drawdown Curve</div> */}
+              </div>
+              <div style={{width:'auto'}} className='chart-container' >
+              <LineChart 
+              chartOptions={state.eq.options}
+              chartData={state.eq.data} />
+               
+              </div>
+
+                <div style={{width:'auto'}} className='chart-container' >
+               
+                <LineChart 
+              chartOptions={state.dd.options}
+              chartData={state.dd.data} />
+                  </div>
+              <div className="charts-container">
+              
+
+                  <div className="chart-container">
+                  <LineChart 
+              chartOptions={state.corr.options}
+              chartData={state.corr.data} />
+              </div>
+
+                  <div className="chart-container">
+                  <BarChart 
+              chartOptions={state.corr_hist.options}
+              chartData={state.corr_hist.data} />
+                  </div>
+                
+            </div>
+          
              </>        ): ( 
               <>
               <div className='chart-skeleton'>
