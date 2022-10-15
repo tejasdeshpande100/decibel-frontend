@@ -416,7 +416,7 @@ Traders can choose from selective window/period sizes on this page and the resul
    </>:null}
   
    </div>
-            <TableContainer component={Paper}>
+   {state ?  (<TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -452,8 +452,8 @@ Traders can choose from selective window/period sizes on this page and the resul
           ))}
         </TableBody>
       </Table>
-    </TableContainer>  
-    <div style={{marginTop:'1em', fontSize:'16px'}} className='table-heading'>Historical Performance</div>
+    </TableContainer>):null  }
+    <div style={{marginTop:'1em', fontSize:'18px'}} className='table-heading'>Historical Performance</div>
             {state ? (
             <>
             <div className="chart-title-container">
