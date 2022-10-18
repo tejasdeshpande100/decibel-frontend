@@ -112,8 +112,8 @@ export default function UsdInrPage() {
       return {
         nf_close_dt: nf_close_dt,
         nf_close_pct:Math.round(nf_close_pct * 100) / 100,
-        nifty_close:  Math.round(nifty_close),
-        usd_close: Math.round(usd_close * 100) / 100,
+        nifty_close: nifty_close,
+        usd_close: usd_close,
         usd_close_dt: usd_close_dt,
         usd_close_pct:Math.round(usd_close_pct * 100) / 100,
         corr:{
