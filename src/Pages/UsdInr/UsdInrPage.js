@@ -4,6 +4,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Autocomplete from '@mui/material/Autocomplete';
 import {equityAndDrawdown, correlationPlots} from '../../api/f2f/f2f'
 import { styled } from '@mui/material/styles';
+import CampaignIcon from '@mui/icons-material/Campaign';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell,  { tableCellClasses } from '@mui/material/TableCell';
@@ -107,15 +108,17 @@ export default function UsdInrPage() {
     if(width<700) corrLineOptions.aspectRatio= 1.4;
     if(width<400) corrLineOptions.aspectRatio= 1;
      
-    console.log('eqDdResponse',eqDdResponse)
+   
     const { nf_close_dt, nf_close_pct,nifty_close,usd_close,usd_close_dt,usd_close_pct} = eqDdResponse.data
+    console.log('corrResponse',corrResponse)
       return {
         nf_close_dt: nf_close_dt,
         nf_close_pct:Math.round(nf_close_pct * 100) / 100,
-        nifty_close: nifty_close,
-        usd_close: usd_close,
+        nifty_close:  Math.round(nifty_close),
+        usd_close: Math.round(usd_close * 100) / 100,
         usd_close_dt: usd_close_dt,
         usd_close_pct:Math.round(usd_close_pct * 100) / 100,
+        alert_signal_data:corrResponse.data.alert_signal_data,
         corr:{
           options: {...corrLineOptions,scales:{...lineOptions.scales,y:{
             title: {
@@ -390,26 +393,74 @@ Traders can choose from selective window/period sizes on this page and the resul
       renderInput={(params) => <TextField {...params} label="Window" />}
     />
       </div>
-      <div className='nifty-usd-ticker-container'>
+      <div style={{
+       display:'flex',
+       flexWrap:'wrap',
+       justifyContent:'space-between',
+        margin:'auto',
+        width:'85%',
+        marginTop:'0.5em'
+      }}>
       {state?<><div style={{color:'#343434'}} >
-       <span style={{fontWeight:'bold'}}>NIFTY {state.nifty_close} {' '} <span style={state.nf_close_pct>0?{color:'rgb(39, 159, 103)'}:{color:'rgb(195, 45, 45)'}}> {state.nf_close_pct}% {state.nf_close_pct>0?<ArrowUpwardIcon style={{paddingTop:'12px'}}/>:<ArrowDownwardIcon style={{paddingTop:'12px'}} />} </span></span>  Last Updated: {state.nf_close_dt}
+       <span style={{fontWeight:'bold'}}>NIFTY {state.nifty_close} {' '} <span style={{color:'rgb(39, 159, 103)'}}> {state.nf_close_pct}% <ArrowUpwardIcon style={{paddingTop:'12px'}}/> </span></span>  Last Updated: {state.nf_close_dt}
     </div>
     <div style={{color:'#343434'}} >
-       <span style={{fontWeight:'bold'}}> USDINR {state.usd_close} {' '} <span style={state.usd_close_pct>0?{color:'rgb(39, 159, 103)'}:{color:'rgb(195, 45, 45)'}}> {state.usd_close_pct}% {state.usd_close_pct>0?<ArrowUpwardIcon style={{paddingTop:'12px'}}/>:<ArrowDownwardIcon style={{paddingTop:'12px'}} />} </span></span>  Last Updated: {state.usd_close_dt}
+       <span style={{fontWeight:'bold'}}> USDINR {state.usd_close} {' '} <span style={{color:'rgb(195, 45, 45)'}}> {state.usd_close_pct}% <ArrowDownwardIcon style={{paddingTop:'12px'}} /> </span></span>  Last Updated: {state.usd_close_dt}
     </div></>:null}
    
       </div>
   <div className="body-wrapper">
             <div className="body-container">  
-            <div style={{display:'flex', flexWrap:'wrap', justifyContent:'space-between'}}>
-            <div className='table-heading'>{`Most Recent 10 Trades for Window size = ${window} Days`}</div>
-           {state?<><div style={{color:'#343434', marginBottom:'10px'}} >
- Last Updated: {state.nf_close_dt}
-    </div>
-   </>:null}
+
+            
+            {state ? (
+            <>
+            <div style={{margin:'1em'}}>
   
+   {
+   state.alert_signal_data.new_signal_alert==='True'?
+   <>
+   <CampaignIcon style={{color:'red', height:'20px'}} />
+   The system for window is showing a change in signal as of market closing of {state.alert_signal_data.current_date}. The system will take the following trade at next market trading day: {state.alert_signal_data.alert_trade}.
+   </>:
+   `The system for ${window} had its last signal on  ${state.alert_signal_data.last_signal} there has been no change in the position since then until ${state.alert_signal_data.current_date}. Refer to signals table below for the historical signals.`}
    </div>
-   {state ?  (<TableContainer component={Paper}>
+            <div className="chart-title-container">
+                {/* <div className="chart-title">Equity/Drawdown Curve</div> */}
+              </div>
+              <div style={{width:'auto'}} className='chart-container' >
+              <LineChart 
+              chartOptions={state.eq.options}
+              chartData={state.eq.data} />
+               
+              </div>
+
+                <div style={{width:'auto'}} className='chart-container' >
+               
+                <LineChart 
+              chartOptions={state.dd.options}
+              chartData={state.dd.data} />
+                  </div>
+              <div className="charts-container">
+              
+
+                  <div className="chart-container">
+                  <LineChart 
+              chartOptions={state.corr.options}
+              chartData={state.corr.data} />
+              </div>
+
+                  <div className="chart-container">
+                  <BarChart 
+              chartOptions={state.corr_hist.options}
+              chartData={state.corr_hist.data} />
+                  </div>
+                
+            </div>
+           <div className='table-heading'>{`Most Recent 10 Trades for Window size = ${window} Days`}</div>
+
+
+            <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -445,43 +496,7 @@ Traders can choose from selective window/period sizes on this page and the resul
           ))}
         </TableBody>
       </Table>
-    </TableContainer>):null  }
-    <div style={{marginTop:'1em', fontSize:'18px'}} className='table-heading'>Historical Performance</div>
-            {state ? (
-            <>
-            <div className="chart-title-container">
-                {/* <div className="chart-title">Equity/Drawdown Curve</div> */}
-              </div>
-              <div style={{width:'auto'}} className='chart-container' >
-              <LineChart 
-              chartOptions={state.eq.options}
-              chartData={state.eq.data} />
-               
-              </div>
-
-                <div style={{width:'auto'}} className='chart-container' >
-               
-                <LineChart 
-              chartOptions={state.dd.options}
-              chartData={state.dd.data} />
-                  </div>
-              <div className="charts-container">
-              
-
-                  <div className="chart-container">
-                  <LineChart 
-              chartOptions={state.corr.options}
-              chartData={state.corr.data} />
-              </div>
-
-                  <div className="chart-container">
-                  <BarChart 
-              chartOptions={state.corr_hist.options}
-              chartData={state.corr_hist.data} />
-                  </div>
-                
-            </div>
-          
+    </TableContainer>    
              </>        ): ( 
               <>
               <div className='chart-skeleton'>
