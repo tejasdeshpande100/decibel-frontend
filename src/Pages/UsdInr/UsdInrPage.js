@@ -374,6 +374,21 @@ const windowValues = [
     This page shows the current signal of the Switching strategy shared with the viewers of Face2Face Talk. A link to Youtube video is available at the bottom of this page. 
 Traders can choose from selective window/period sizes on this page and the results of this page will update. This can help discretionary traders on performing Multi-Time Frame analysis too. The default setting is 21 Days period. 
   </div>
+
+  {state?  <div style={{fontSize:'15px',width:'85%',margin:'auto'}}>
+  
+  {
+  state.alert_signal_data.new_signal_alert==='True'?
+  <>
+  <CampaignIcon style={{color:'red', height:'20px'}} />
+  <span style={{color:'red',fontWeight:'bold'}}>ALERT: </span>
+  The system for window size of {window} days is showing a change in signal as of market closing of {state.alert_signal_data.current_date}. The system will take the following trade at next market trading day: {state.alert_signal_data.alert_trade}.
+  </>:
+  <>
+  <span style={{color:'red',fontWeight:'bold'}}>ALERT: </span>
+  The system for window size of {window} had its last signal on  {state.alert_signal_data.last_signal} there has been no change in the position since then until {state.alert_signal_data.current_date}. Refer to signals table below for the historical signals.</>}
+  
+  </div>:null}
   <div style={{width:'85%'}} className='autocomplete-container'>
     <div>
      
@@ -415,16 +430,46 @@ Traders can choose from selective window/period sizes on this page and the resul
             
             {state ? (
             <>
-            <div style={{margin:'1em'}}>
-  
-   {
-   state.alert_signal_data.new_signal_alert==='True'?
-   <>
-   <CampaignIcon style={{color:'red', height:'20px'}} />
-   The system for window is showing a change in signal as of market closing of {state.alert_signal_data.current_date}. The system will take the following trade at next market trading day: {state.alert_signal_data.alert_trade}.
-   </>:
-   `The system for ${window} had its last signal on  ${state.alert_signal_data.last_signal} there has been no change in the position since then until ${state.alert_signal_data.current_date}. Refer to signals table below for the historical signals.`}
-   </div>
+           <div className='table-heading'>{`Most Recent 10 Trades for Window size = ${window} Days`}</div>
+
+
+<TableContainer component={Paper}>
+<Table sx={{ minWidth: 650 }} aria-label="simple table">
+<TableHead>
+<TableRow>
+<StyledTableCell>DATE</StyledTableCell>
+
+<StyledTableCell align="center">LONG</StyledTableCell>
+<StyledTableCell align="center">EXIT LONG</StyledTableCell>
+<StyledTableCell align="center">NIFTY CLOSE</StyledTableCell>
+<StyledTableCell align="center">USDINR CLOSE</StyledTableCell>
+<StyledTableCell align="center">NIFTY REGIME</StyledTableCell>
+
+<StyledTableCell align="center">USDINR REGIME</StyledTableCell>
+</TableRow>
+</TableHead>
+<TableBody>
+{state.signals.map((row) => (
+<TableRow
+  key={row.date}
+  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+>
+  <TableCell component="th" scope="row">
+    {row.date}
+  </TableCell>
+  <TableCell align="center">{row.long}</TableCell>
+  <TableCell align="center">
+    {row.exit}
+  </TableCell>
+  <TableCell align="center">{Math.round((parseFloat(row.nifty_close) + Number.EPSILON) * 100) / 100}</TableCell>
+  <TableCell align="center">{Math.round((parseFloat(row.usd_close) + Number.EPSILON) * 100) / 100}</TableCell>
+  <TableCell style={row.nifty_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.nifty_regime}</TableCell>
+  <TableCell style={row.usd_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.usd_regime}</TableCell>
+</TableRow>
+))}
+</TableBody>
+</Table>
+</TableContainer>  
             <div className="chart-title-container">
                 {/* <div className="chart-title">Equity/Drawdown Curve</div> */}
               </div>
@@ -457,46 +502,7 @@ Traders can choose from selective window/period sizes on this page and the resul
                   </div>
                 
             </div>
-           <div className='table-heading'>{`Most Recent 10 Trades for Window size = ${window} Days`}</div>
-
-
-            <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>DATE</StyledTableCell>
-            
-            <StyledTableCell align="center">LONG</StyledTableCell>
-            <StyledTableCell align="center">EXIT LONG</StyledTableCell>
-            <StyledTableCell align="center">NIFTY CLOSE</StyledTableCell>
-            <StyledTableCell align="center">USDINR CLOSE</StyledTableCell>
-            <StyledTableCell align="center">NIFTY REGIME</StyledTableCell>
-           
-            <StyledTableCell align="center">USDINR REGIME</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {state.signals.map((row) => (
-            <TableRow
-              key={row.date}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.date}
-              </TableCell>
-              <TableCell align="center">{row.long}</TableCell>
-              <TableCell align="center">
-                {row.exit}
-              </TableCell>
-              <TableCell align="center">{Math.round((parseFloat(row.nifty_close) + Number.EPSILON) * 100) / 100}</TableCell>
-              <TableCell align="center">{Math.round((parseFloat(row.usd_close) + Number.EPSILON) * 100) / 100}</TableCell>
-              <TableCell style={row.nifty_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.nifty_regime}</TableCell>
-              <TableCell style={row.usd_regime==='BEARISH'?{color:'#C32D2D'}:{color:'#279F67'}} align="center">{row.usd_regime}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>    
+             
              </>        ): ( 
               <>
               <div className='chart-skeleton'>
