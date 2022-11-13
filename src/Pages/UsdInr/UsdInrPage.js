@@ -17,6 +17,7 @@ import BarChart from "../../Components/Charts/BarChart";
 import getWindowDimensions from '../../utils/getWindowDimensions';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import YoutubeEmbed from "./YoutubeEmbed";
 import './usdInrPage.css'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -374,6 +375,8 @@ const windowValues = [
     This page shows the current signal of the Switching strategy shared with the viewers of Face2Face Talk. A link to Youtube video is available at the bottom of this page. 
 Traders can choose from selective window/period sizes on this page and the results of this page will update. This can help discretionary traders on performing Multi-Time Frame analysis too. The default setting is 21 Days period. 
   </div>
+  <div style={{width:'85%',margin:'1em auto 1em auto'}}><YoutubeEmbed embedId="vX0IYePwF20" /></div>
+  
 
   {state?  <div style={{fontSize:'15px',width:'85%',margin:'auto'}}>
   
