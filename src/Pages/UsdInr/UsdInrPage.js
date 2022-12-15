@@ -420,10 +420,10 @@ Traders can choose from selective window/period sizes on this page and the resul
         marginTop:'0.5em'
       }}>
       {state?<><div style={{color:'#343434'}} >
-       <span style={{fontWeight:'bold'}}>NIFTY {state.nifty_close} {' '} <span style={state.nf_close_pct<0?{color:'rgb(195, 45, 45)'}:{color:'rgb(39, 159, 103)'}}> {state.nf_close_pct}% <ArrowUpwardIcon style={{paddingTop:'12px'}}/> </span></span>  Last Updated: {state.nf_close_dt}
+       <span style={{fontWeight:'bold'}}>NIFTY {state.nifty_close} {' '} <span style={state.nf_close_pct<0?{color:'rgb(195, 45, 45)'}:{color:'rgb(39, 159, 103)'}}> {state.nf_close_pct}% {state.nf_close_pct<0?<ArrowDownwardIcon style={{paddingTop:'12px'}} />:<ArrowUpwardIcon style={{paddingTop:'12px'}}/>} </span></span>  Last Updated: {state.nf_close_dt}
     </div>
     <div style={{color:'#343434'}} >
-       <span style={{fontWeight:'bold'}}> USDINR {state.usd_close} {' '} <span style={state.usd_close_pct<0?{color:'rgb(195, 45, 45)'}:{color:'rgb(39, 159, 103)'}}> {state.usd_close_pct}% <ArrowDownwardIcon style={{paddingTop:'12px'}} /> </span></span>  Last Updated: {state.usd_close_dt}
+       <span style={{fontWeight:'bold'}}> USDINR {state.usd_close} {' '} <span style={state.usd_close_pct<0?{color:'rgb(195, 45, 45)'}:{color:'rgb(39, 159, 103)'}}> {state.usd_close_pct}% {state.usd_close_pct<0?<ArrowDownwardIcon style={{paddingTop:'12px'}} />:<ArrowUpwardIcon style={{paddingTop:'12px'}}/>} </span></span>  Last Updated: {state.usd_close_dt}
     </div></>:null}
    
       </div>
